@@ -1,0 +1,42 @@
+/*
+ * CSS Reset
+ */
+ *, ::before, ::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+/*
+ * Etiquetas y Clases
+ */
+body {
+    font: 16px 'Times New Roman', Times, serif;
+}
+
+figure {
+    border: 1px solid #000000;
+    display: inline-block;
+    text-align: center;
+}
+
+figure > a {
+    text-decoration: none;
+}
+
+figure > a > img {
+    border-radius: 50%;
+    max-width: 64px;
+}
+
+figure > a > figcaption {
+    background-color: #000000;
+    color: #FFFFFF;
+    padding: 0.25rem;
+    width: 96px;
+}
+
+figure:hover > a > figcaption {
+    background-color: #E12F29;
+}
