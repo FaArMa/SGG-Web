@@ -40,12 +40,37 @@ if ($_POST["action"] === "get_users_count") {
 
 
 /*
+ * Verifica si la acción es "get_user_role" y devuelve el rol del usuario proporcionado.
+ * Imprime el rol obtenido en el cuerpo de la respuesta.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
+if ($_POST["action"] === "get_user_role") {
+    $_POST["username"] = sanitize_input($_POST["username"]);
+    echo get_user_role($connection, $_POST["username"]);
+    mysqli_close($connection);
+    die;
+}
+
+
+/*
  * Verifica si la acción es "validate_user_credentials" y valida las credenciales del usuario.
  * Imprime el resultado de la validación en el cuerpo de la respuesta.
  * Cierra la conexión a la base de datos y finaliza la ejecución del script.
  */
 if ($_POST["action"] === "validate_user_credentials") {
     echo validate_user_credentials($connection, $_POST["username"], $_POST["password"]);
+    mysqli_close($connection);
+    die;
+}
+
+
+/*
+ * Verifica si la acción es "add_user" y registra/agrega los datos proporcionados.
+ * Imprime el resultado de la operación en el cuerpo de la respuesta.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
+if ($_POST["action"] === "add_user") {
+    echo add_user($connection, $_POST["name"], $_POST["surname"], (int) $_POST["role"], $_POST["username"], $_POST["password"]);
     mysqli_close($connection);
     die;
 }
