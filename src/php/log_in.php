@@ -13,6 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Se requiere una conexión a la base de datos y las funciones que interactúan con la misma
     require_once("db/connection.php");
     require_once("db/functions.php");
+    // Sanitizar los valores de $_POST[] que posiblemente se muestren en la página en algún futuro
+    $_POST["username"] = sanitize_input($_POST["username"]);
     // Validación de las credenciales del usuario
     if (validate_user_credentials($connection, $_POST["username"], $_POST["password"])) {
         // Establecer variables de sesión

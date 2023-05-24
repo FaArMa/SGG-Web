@@ -44,7 +44,7 @@ mysqli_close($connection);
     <section>
         <h1>Lista de usuarios</h1>
         <form action="<?php echo sanitize_input($_SERVER["PHP_SELF"]); ?>" method="get">
-            <input type="text" id="surname" name="surname" placeholder="Escribe un apellido..." value="<?php echo sanitize_input($surname_searched); ?>">
+            <input type="text" id="surname" name="surname" placeholder="Escribe un apellido..." value="<?php echo $surname_searched; ?>">
             <button type="submit" id="btn-send">Buscar</button>
         </form>
         <a href="sign_in.php"><i class="fa-solid fa-circle-plus"></i> Agregar usuario</a>
