@@ -29,14 +29,16 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] === false) {
     <!-- Header -->
     <?php require_once("../php/header.php"); ?>
     <!-- Contenido -->
-    <section>
-        <h1>Panel de control</h1>
-        <?php
-        // Solo lo ve el Dueño
-        if ($_SESSION["role"] === 0)
-            echo "<p><a href=\"/SGG-Web/src/common/users_list.php\">Lista de usuarios</a></p>";
-        echo "<p><a href=\"/SGG-Web/src/common/invoices_list.php\">Lista de facturas</a></p>";
-        ?>
+    <section id="control-content">
+        <h1 class="neon" data-text="U">Pa<span class="flicker-slow">ne</span>l de <span class="flicker-fast">Co</span>nt<span class="flicker-slow">ro</span>l</h1>
+        <div>
+            <?php
+            // Solo lo ve el Dueño
+            if ($_SESSION["role"] === 0)
+                echo "<a href=\"/SGG-Web/src/common/users_list.php\"><div id=\"user-list\"><p>Lista de usuarios</p></div></a>";
+            echo "<a href=\"/SGG-Web/src/common/orders_list.php\"><div id=\"order-list\"><p>Lista de pedidos</p></div></a>";
+            ?>
+        </div>
     </section>
     <!-- Footer -->
     <?php require_once("../php/footer.php"); ?>

@@ -21,7 +21,7 @@ session_start();
     <?php require_once("../php/contact.php"); ?>
     <!-- Contenido -->
     <section>
-        <h1>Contacto</h1>
+        <h1 class="neon" data-text="U">C<span class="flicker-slow">o</span>nt<span class="flicker-fast">ac</span>to</h1>
         <form action="<?php echo sanitize_input($_SERVER["PHP_SELF"]); ?>" method="post">
             <label for="name">Nombre</label> <span>*<?php echo $name_error ?></span>
             <input type="text" id="name" name="name" placeholder="Escribe tu nombre..." value="<?php echo $name; ?>">

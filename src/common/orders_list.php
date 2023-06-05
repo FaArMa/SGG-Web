@@ -30,8 +30,8 @@ mysqli_close($connection);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de usuarios - SGG</title>
-    <meta name="description" content="Página de lista de usuarios del SGG. Sitio web creado para la parte práctica del segundo parcial de Laboratorio de Computación IV">
+    <title>Lista de pedidos - SGG</title>
+    <meta name="description" content="Página de lista de pedidos del SGG. Sitio web creado para la parte práctica del segundo parcial de Laboratorio de Computación IV">
     <meta name="author" content="FaArMa, iglop, ereichardt">
     <meta name="robots" content="noindex, nofollow">
     <!-- CSS -->
@@ -41,22 +41,22 @@ mysqli_close($connection);
     <!-- Header -->
     <?php require_once("../php/header.php"); ?>
     <!-- Contenido -->
-    <section id="users-list">
-        <h1 class="neon" data-text="U"><span class="flicker-slow">L</span>ist<span class="flicker-fast">a</span> de <span class="flicker-slow">us</span>uar<span class="flicker-fast">io</span>s</h1>
+    <section id="orders-list">
+        <h1 class="neon" data-text="U"><span class="flicker-slow">L</span>ist<span class="flicker-fast">a</span> de <span class="flicker-slow">pe</span>di<span class="flicker-fast">do</span>s</h1>
         <form action="<?php echo sanitize_input($_SERVER["PHP_SELF"]); ?>" method="get">
-            <input type="text" id="surname" name="surname" placeholder="Escribe un apellido..." value="<?php echo $surname_searched; ?>">
+            <!--Los pedidos tendría sentidos buscarlos por fecha supongo-->
+            <input type="text" id="date" name="date" placeholder="Ingresa la fecha..." value="<?php echo $surname_searched; ?>">
             <button type="submit" id="btn-send">Buscar</button>
         </form>
-        <a href="sign_in.php" id="agregate"><i id="add" class="fa-solid fa-circle-plus"></i> Agregar usuario</a>
+        <!--Solo pide un CRUD pero se podría reciclar el de usuarios... por lo pronto saco el boton de agregar-->
+        <!--<a href="#" id="agregate"><i id="add" class="fa-solid fa-circle-plus"></i> Nuevo pedido</a>-->
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Rol</th>
-                    <th>Usuario</th>
-                    <th>Contraseña</th>
+                    <th>Fecha de Creación</th>
+                    <th>Estado</th>
+                    <th>Usuario que lo creó</th>
                     <th colspan="2">Acción</th>
                 </tr>
             </thead>
@@ -65,12 +65,10 @@ mysqli_close($connection);
                 // Recorrer cada usuario y mostrar los datos en filas de la tabla
                 foreach ($users as $row) {
                     echo "<tr>";
-                    echo "<td>" . $row["id_usuario"] . "</td>";
-                    echo "<td>" . $row["nombre"] . "</td>";
-                    echo "<td>" . $row["apellido"] . "</td>";
-                    echo "<td>" . $row["rol"] . "</td>";
-                    echo "<td>" . $row["usuario"] . "</td>";
-                    echo "<td>" . $row["contrasena"] . "</td>";
+                    echo "<td>" . $row["id_pedido"] . "</td>";
+                    echo "<td>" . $row["fecha"] . "</td>";
+                    echo "<td>" . $row["estado"] . "</td>";
+                    echo "<td>" . $row["id_usuario"] . "</td>";     //¿Es necesario...? ¿Hacer un join del id del usuario con la tabla usuario y devolver su apellido?
                     echo "<td><a href=\"#\"><i class=\"fa-solid fa-pen-to-square\"></i></a></td>";
                     echo "<td><a href=\"#\"><i class=\"fa-solid fa-trash-can\"></i></a></td>";
                     echo "</tr>";

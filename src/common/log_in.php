@@ -17,13 +17,13 @@
     <?php require_once("../php/header.php"); ?>
     <!-- Contenido -->
     <section>
-        <h1>Iniciar sesión</h1>
+        <h1 class="neon" data-text="U"><span class="flicker-slow">I</span>nici<span class="flicker-fast">a</span>r Se<span class="flicker-slow">si</span>ón</h1>
         <form action="../php/log_in.php" method="post">
             <label for="username">Usuario</label>
             <input type="text" id="username" name="username" placeholder="Escribe tu usuario..." required>
             <label for="password">Contraseña</label>
             <input type="password" id="password" name="password" placeholder="Escribe tu contraseña..." required>
-            <button type="submit" id="btn-send">Enviar</button>
+            <button type="submit" id="btn-send">Ingresar</button>
         </form>
     </section>
     <!-- Footer -->

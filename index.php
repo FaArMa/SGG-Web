@@ -30,9 +30,10 @@ session_start();
     ?>
     <!-- Contenido -->
     <section>
-        <h1>SGG-Web</h1>
-        <p>Una herramienta útil para la gestión de empleados y ventas de tu aplicación de Sistema de Gestión Gastronómico, proporcionando acceso seguro y controlado para el dueño y el contador.</p>
-        <p>Si no eres el dueño ni contador del local y estás viendo este sitio web, significa que alguien configuró mal todo.</p>
+        <h1 class="neon" data-text="U">SG<span class="flicker-slow">G</span>-<span class="flicker-fast">W</span>EB</h1>
+        <p class="description">Una herramienta útil para la gestión de empleados y ventas de tu aplicación de Sistema de Gestión Gastronómico, proporcionando acceso seguro y controlado para dueños y encargados de su emprendimiento.</p>
+        <!--AGREGAR GALERIA CON PARALLAX DE IMAGENES GENERICAS DE COCINA/GASTRONOMIA RANDOM CON PHP?-->
+        <p class="description">Si no sos el dueño o encargado del emprendimiento y estás viendo este sitio web, significa que alguien configuró mal todo.</p>
     </section>
     <!-- Footer -->
     <?php require_once("src/php/footer.php"); ?>

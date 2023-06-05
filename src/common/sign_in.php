@@ -17,7 +17,10 @@ if ((!isset($_SESSION["role"]) || $_SESSION["role"] !== 0) && $_SESSION["users_c
  * Si no hay usuarios registrados, el título se establece como "Registrarse",
  * de lo contrario, se establece como "Agregar usuario".
  */
-$title = ($_SESSION["users_count"] == 0) ? "Registrarse" : "Agregar usuario";
+$page_title = ($_SESSION["users_count"] == 0) ? "Registrarse" : "Agregar Usuario";
+$title = ($_SESSION["users_count"] == 0) ? "Re<span class=\"flicker-slow\">g</span>ist<span class=\"flicker-fast\">rar</span>se" : "Agr<span class=\"flicker-fast\">eg</span>ar <span class=\"flicker-slow\">Us</span>uar<span class=\"flicker-fast\">io</span>";
+$button = ($_SESSION["users_count"] == 0) ? "Registrarse" : "Agregar";
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -25,7 +28,7 @@ $title = ($_SESSION["users_count"] == 0) ? "Registrarse" : "Agregar usuario";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $title; ?> - SGG</title>
+    <title><?php echo $page_title; ?> - SGG</title>
     <meta name="description" content="Página de registro del SGG. Sitio web creado para la parte práctica del segundo parcial de Laboratorio de Computación IV">
     <meta name="author" content="FaArMa, iglop, ereichardt">
     <meta name="robots" content="noindex, nofollow">
@@ -37,7 +40,7 @@ $title = ($_SESSION["users_count"] == 0) ? "Registrarse" : "Agregar usuario";
     <?php require_once("../php/header.php"); ?>
     <!-- Contenido -->
     <section>
-        <h1><?php echo $title; ?></h1>
+        <h1 class="neon" data-text="U"><?php echo $title; ?></h1>
         <?php echo ($_SESSION["users_count"] === 0) ? "<p>Aviso: Sos el primer usuario y por lo tanto obtendrás el rol de Dueño</p>" : ""; ?>
         <form action="../php/sign_in.php" method="post">
             <label for="name">Nombre</label>
@@ -53,7 +56,7 @@ $title = ($_SESSION["users_count"] == 0) ? "Registrarse" : "Agregar usuario";
             <input type="text" id="username" name="username" placeholder="Escribe tu usuario..." required>
             <label for="password">Contraseña</label>
             <input type="password" id="password" name="password" placeholder="Escribe tu contraseña..." required>
-            <button type="submit" id="btn-send">Enviar</button>
+            <button type="submit" id="btn-send"><?php echo $button; ?></button>
         </form>
     </section>
     <!-- Footer -->
