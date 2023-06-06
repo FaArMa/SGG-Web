@@ -54,9 +54,11 @@ mysqli_close($connection);
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
+                    <th>DNI</th>
                     <th>Rol</th>
                     <th>Usuario</th>
                     <th>Contraseña</th>
+                    <th>Eliminado</th>
                     <th colspan="2">Acción</th>
                 </tr>
             </thead>
@@ -68,9 +70,11 @@ mysqli_close($connection);
                     echo "<td>" . $row["id_usuario"] . "</td>";
                     echo "<td>" . $row["nombre"] . "</td>";
                     echo "<td>" . $row["apellido"] . "</td>";
+                    echo "<td>" . $row["dni"] . "</td>";
                     echo "<td>" . $row["rol"] . "</td>";
                     echo "<td>" . $row["usuario"] . "</td>";
                     echo "<td>" . $row["contrasena"] . "</td>";
+                    echo "<td>" . $row["usuario_eliminado"] . "</td>";
                     echo "<td><a href=\"#\"><i class=\"fa-solid fa-pen-to-square\"></i></a></td>";
                     echo "<td><a href=\"#\"><i class=\"fa-solid fa-trash-can\"></i></a></td>";
                     echo "</tr>";

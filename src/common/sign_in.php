@@ -47,6 +47,8 @@ $button = ($_SESSION["users_count"] == 0) ? "Registrarse" : "Agregar";
             <input type="text" id="name" name="name" placeholder="Escribe tu nombre..." required>
             <label for="surname">Apellido</label>
             <input type="text" id="surname" name="surname" placeholder="Escribe tu apellido..." required>
+            <label for="dni">DNI</label>
+            <input type="number" id="dni" name="dni" placeholder="Escribe tu DNI..." required>
             <label for="role">Rol</label>
             <select id="role" name="role" <?php echo ($_SESSION["users_count"] == 0) ? " disabled" : ""; ?>>
                 <option value="0">Dueño</option>

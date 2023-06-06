@@ -116,18 +116,20 @@ function validate_user_credentials($connection, $username, $password) {
  * @param mysqli $connection La conexión activa a la base de datos.
  * @param string $name El nombre del usuario.
  * @param string $surname El apellido del usuario.
+ * @param int $dni El DNI del usuario.
  * @param int $role El rol del usuario.
  * @param string $username El nombre de usuario.
  * @param string $password La contraseña del usuario (sin encriptar).
  * @return bool True si el usuario se ha agregado correctamente, false en caso contrario.
  */
-function add_user($connection, $name, $surname, $role, $username, $password) {
+function add_user($connection, $name, $surname, $dni, $role, $username, $password) {
     $escaped_name = mysqli_real_escape_string($connection, $name);
     $escaped_surname = mysqli_real_escape_string($connection, $surname);
+    $escaped_dni = mysqli_real_escape_string($connection, $dni);
     $escaped_role = mysqli_real_escape_string($connection, $role);
     $escaped_username = mysqli_real_escape_string($connection, $username);
     $hashed_password = md5($password);
-    $query = "INSERT INTO `usuario` VALUES (NULL,'$escaped_name','$escaped_surname','$escaped_role','$escaped_username','$hashed_password')";
+    $query = "INSERT INTO `usuario` VALUES (NULL,'$escaped_name','$escaped_surname','$escaped_dni','$escaped_role','$escaped_username','$hashed_password',DEFAULT);";
     $result = mysqli_query($connection, $query) or die("Error al agregar usuario a la base de datos.");
     return $result;
 }
