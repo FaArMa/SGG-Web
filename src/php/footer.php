@@ -32,3 +32,4 @@
 </footer>
 <!-- JS -->
 <script src="https://kit.fontawesome.com/0465e06944.js" crossorigin="anonymous"></script>
+<script src="/SGG-Web/src/js/main.js"></script>

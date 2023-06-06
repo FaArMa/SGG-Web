@@ -32,5 +32,3 @@
         <div id="menu-background-image"></div>
     </nav>
 </header>
-<!-- JS -->
-<script src="/SGG-Web/src/js/main.js"></script>
