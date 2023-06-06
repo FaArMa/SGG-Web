@@ -13,4 +13,4 @@
 8. Si el usuario logueado tiene la categoría de "Administrador" se le mostrará una Página adicional con los contenidos anteriormente mencionados con su correspondiente ABM (Altas, bajas y modificaciones) y su correspondiente buscador. El mismo se adaptará a la temática del proyecto.
 
 ## Aviso
-1. Fecha de entrega para el ??/??/2023, así que si ves cambios posteriores es porque quisimos terminar de corregir y/o mejorar ciertas cosas.
+1. Fecha de entrega para el 21/06/2023, así que si ves cambios posteriores es porque quisimos terminar de corregir y/o mejorar ciertas cosas.
