@@ -3,12 +3,11 @@
 session_start();
 
 /*
- * Verificar si el usuario ha iniciado sesión y tiene el rol adecuado.
- * Si no se ha iniciado sesión, la variable $_SESSION["logged_in"] es falsa
- * o el valor de $_SESSION["role"] no es igual a 0 (Dueño),
+ * Verificar si el usuario ha iniciado sesión.
+ * Si no se ha iniciado sesión o la variable $_SESSION["logged_in"] es falsa,
  * se redirecciona a la página de inicio de sesión y se finaliza la ejecución del script.
  */
-if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] === false || $_SESSION["role"] !== 0) {
+if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] === false) {
     header("Location: /SGG-Web/src/common/log_in.php");
     die;
 }
