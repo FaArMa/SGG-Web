@@ -49,11 +49,21 @@ $button = ($_SESSION["users_count"] == 0) ? "Registrarse" : "Agregar";
             <input type="text" id="surname" name="surname" placeholder="Escribe tu apellido..." required>
             <label for="dni">DNI</label>
             <input type="number" id="dni" name="dni" placeholder="Escribe tu DNI..." required>
+            <!-- TODO Este sito web está pensado para Dueño y Contador
+                Tocará modificar log_in.php para que no permita iniciar sesión a Encargado y Empleado o algo así
+            -->
             <label for="role">Rol</label>
             <select id="role" name="role" <?php echo ($_SESSION["users_count"] == 0) ? " disabled" : ""; ?>>
                 <option value="0">Dueño</option>
-                <option value="1">Gerente</option>
+                <option value="1">Encargado</option>
+                <option value="2">Empleado</option>
+                <option value="3">Contador</option>
             </select>
+            <!--TODO Generar automáticamente (no editable) el usuario y contraseña
+                - Usuario    : Primer letra del Nombre + Apellido + ID
+                - Contraseña : Últimos 4 dígitos del DNI
+                - Ejemplo    : 1 | Pepe | Argento | 12345789 | Dueño | PArgento1 | 5789
+            -->
             <label for="username">Usuario</label>
             <input type="text" id="username" name="username" placeholder="Escribe tu usuario..." required>
             <label for="password">Contraseña</label>
