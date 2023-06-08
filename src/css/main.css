@@ -106,7 +106,7 @@ p {
 }
 
 #menu-background-image {
-    background: linear-gradient(to top, rgba(20, 20, 20, 1), 40%, transparent), url("https://images.unsplash.com/photo-1430931071372-38127bd472b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1467&q=80");
+    background: linear-gradient(to top, rgba(20, 20, 20, 1), 40%, transparent), url("../img/menu_bg.jpg");
     background-position: center 25%;
     background-size: 110vmax;
     height: 100%;
@@ -333,7 +333,7 @@ select {
 #user-list {
     align-content: center;
     align-items: center;
-    background: radial-gradient(transparent, 90%, rgba(20, 20, 20, 1)), url("https://images.unsplash.com/photo-1566981973343-b0dfad7f0da2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80");
+    background: radial-gradient(transparent, 90%, rgba(20, 20, 20, 1)), url("../img/common/user_list_bg.jpg");
     background-position-x: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -356,7 +356,7 @@ select {
 #order-list {
     align-content: center;
     align-items: center;
-    background: radial-gradient(transparent, 90%, rgba(20, 20, 20, 1)), url("https://images.unsplash.com/photo-1608535002897-27b2aa592456?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80");
+    background: radial-gradient(transparent, 90%, rgba(20, 20, 20, 1)), url("../img/common/order_list_bg.jpg");
     background-position-x: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -515,7 +515,10 @@ figure > a {
 
 figure > a > img {
     border-radius: 50%;
+    height: 64px;
+    max-height: 64px;
     max-width: 64px;
+    width: 64px;
 }
 
 figure > a > figcaption {
