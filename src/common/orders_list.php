@@ -33,6 +33,10 @@ mysqli_close($connection);
     <meta name="description" content="Página de lista de pedidos del SGG. Sitio web creado para la parte práctica del segundo parcial de Laboratorio de Computación IV">
     <meta name="author" content="FaArMa, iglop, ereichardt">
     <meta name="robots" content="noindex, nofollow">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon/favicon-16x16.png">
+    <link rel="shortcut icon" href="../img/favicon/favicon.ico">
     <!-- CSS -->
     <link rel="stylesheet" href="../css/main.css">
 </head>
