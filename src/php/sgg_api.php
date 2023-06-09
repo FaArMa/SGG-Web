@@ -73,9 +73,10 @@ if ($_POST["action"] === "validate_user_credentials") {
 if ($_POST["action"] === "add_user") {
     $_POST["name"] = sanitize_input($_POST["name"]);
     $_POST["surname"] = sanitize_input($_POST["surname"]);
+    $_POST["dni"] = sanitize_input($_POST["dni"]);
     $_POST["role"] = sanitize_input($_POST["role"]);
     $_POST["username"] = sanitize_input($_POST["username"]);
-    echo add_user($connection, $_POST["name"], $_POST["surname"], (int) $_POST["role"], $_POST["username"], $_POST["password"]);
+    echo add_user($connection, $_POST["name"], $_POST["surname"], (int) $_POST["dni"], (int) $_POST["role"], $_POST["username"], $_POST["password"]);
     mysqli_close($connection);
     die;
 }
