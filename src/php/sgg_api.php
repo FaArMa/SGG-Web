@@ -100,7 +100,6 @@ if ($_POST["action"] === "get_product_list") {
 */
 if ($_POST["action"] === "get_available_ingredients") {
     $query_result = get_available_ingredients($connection);
-    header('Content-Type: application/json');
     echo implode(',',$query_result);
     mysqli_close($connection);
     die;
@@ -139,7 +138,6 @@ if ($_POST["action"] === "get_product_ingredient_amounts") {
 */
 if ($_POST["action"] === "get_user_list") {
     $query_result = get_user_list($connection);
-    header('Content-Type: application/json');
     echo implode(',',$query_result);
     mysqli_close($connection);
     die;

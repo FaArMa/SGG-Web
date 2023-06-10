@@ -83,7 +83,7 @@ function get_users_list_surname($connection, $surname) {
  */
 function get_user_role($connection, $username) {
     $escaped_username = mysqli_real_escape_string($connection, $username);
-    $query = "SELECT `rol` FROM `usuario` WHERE `usuario` = '$escaped_username';";
+    $query = "SELECT `rol` FROM `usuario` WHERE `nombre_usuario` = '$escaped_username';";
     $result = mysqli_query($connection, $query) or die("Error al obtener el rol del usuario desde la base de datos.");
     $row = mysqli_fetch_assoc($result);
     $role = (int)$row["rol"];
@@ -102,7 +102,7 @@ function get_user_role($connection, $username) {
 function validate_user_credentials($connection, $username, $password) {
     $escaped_username = mysqli_real_escape_string($connection, $username);
     $hashed_password = md5($password);
-    $query = "SELECT * FROM `usuario` WHERE `usuario` = '$escaped_username' AND `contrasena` = '$hashed_password'";
+    $query = "SELECT * FROM `usuario` WHERE `nombre_usuario` = '$escaped_username' AND `contrasena` = '$hashed_password'";
     $result = mysqli_query($connection, $query) or die("Error al validar las credenciales de usuario con la base de datos.");
     $valid = (mysqli_num_rows($result) > 0);
     mysqli_free_result($result);
@@ -129,7 +129,7 @@ function add_user($connection, $name, $surname, $dni, $role, $username, $passwor
     $escaped_role = mysqli_real_escape_string($connection, $role);
     $escaped_username = mysqli_real_escape_string($connection, $username);
     $hashed_password = md5($password);
-    $query = "INSERT INTO `usuario` VALUES (NULL,'$escaped_name','$escaped_surname','$escaped_dni','$escaped_role','$escaped_username','$hashed_password',DEFAULT);";
+    $query = "INSERT INTO `usuario` VALUES (NULL,'$escaped_name','$escaped_surname','$escaped_dni','$escaped_role','$escaped_username','$hashed_password');";
     $result = mysqli_query($connection, $query) or die("Error al agregar usuario a la base de datos.");
     return $result;
 }
