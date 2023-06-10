@@ -26,12 +26,17 @@ USE `sgg_web`;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `comanda`
+-- Estructura de tabla para la tabla `usuario`
 --
 
-CREATE TABLE `comanda` (
-  `id_comanda` mediumint(8) UNSIGNED NOT NULL,
-  `id_usuario` tinyint(3) UNSIGNED NOT NULL
+CREATE TABLE `usuario` (
+  `id_usuario` tinyint(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `nombre` varchar(30) NOT NULL,
+  `apellido` varchar(30) NOT NULL,
+  `dni` mediumint(8) NOT NULL,
+  `rol` tinyint(1) NOT NULL,
+  `nombre_usuario` varchar(15) NOT NULL,
+  `contrasena` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -41,9 +46,12 @@ CREATE TABLE `comanda` (
 --
 
 CREATE TABLE `factura` (
-  `id_factura` int(10) UNSIGNED NOT NULL,
+  `id_factura` int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `fecha_emision` date NOT NULL,
-  `importe` decimal(10,2) UNSIGNED NOT NULL
+  `mesa` varchar(4),
+  `importe` decimal(12,2) NOT NULL,
+  `id_usuario` tinyint(3),
+  CONSTRAINT `factura_usuario_fk` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -53,49 +61,10 @@ CREATE TABLE `factura` (
 --
 
 CREATE TABLE `ingrediente` (
-  `id_ingrediente` smallint(4) UNSIGNED NOT NULL,
+  `id_ingrediente` smallint(4) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `nombre_ingrediente` varchar(40) NOT NULL,
-  `stock` smallint(4) UNSIGNED NOT NULL,
-  `ingr_eliminado` tinyint(1) UNSIGNED DEFAULT 0,
-  `id_usuario` tinyint(3) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ingrediente_x_pedido`
---
-
-CREATE TABLE `ingrediente_x_pedido` (
-  `id_ingrediente` smallint(4) UNSIGNED NOT NULL,
-  `id_pedido` mediumint(6) UNSIGNED NOT NULL,
-  `cantidad` tinyint(3) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ingrediente_x_producto`
---
-
-CREATE TABLE `ingrediente_x_producto` (
-  `id_producto` smallint(4) UNSIGNED NOT NULL,
-  `id_ingrediente` smallint(4) UNSIGNED NOT NULL,
-  `cantidad` tinyint(3) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pedido`
---
-
-CREATE TABLE `pedido` (
-  `id_pedido` mediumint(6) UNSIGNED NOT NULL,
-  `fecha` date NOT NULL DEFAULT current_timestamp(),
-  `estado` varchar(10) NOT NULL,
-  `pedido_cancelado` tinyint(1) UNSIGNED DEFAULT 0,
-  `id_usuario` tinyint(3) UNSIGNED NOT NULL
+  `stock` smallint(4),
+  `unidad_medida` varchar(3)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -105,192 +74,224 @@ CREATE TABLE `pedido` (
 --
 
 CREATE TABLE `producto` (
-  `id_producto` smallint(4) UNSIGNED NOT NULL,
+  `id_producto` smallint(4) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `nombre_producto` varchar(40) NOT NULL,
-  `tipo` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
-  `precio` decimal(4,2) UNSIGNED NOT NULL,
-  `stock` smallint(4) UNSIGNED NOT NULL,
-  `prod_eliminado` tinyint(1) UNSIGNED DEFAULT 0,
-  `id_usuario` tinyint(3) UNSIGNED NOT NULL
+  `tipo` varchar(6) NOT NULL,
+  `precio` decimal(6,2) NOT NULL,
+  `stock` smallint(4)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `producto_x_comanda`
+-- Estructura de tabla para la tabla `ingrediente_x_producto`
 --
 
-CREATE TABLE `producto_x_comanda` (
-  `id_producto` smallint(4) UNSIGNED NOT NULL,
-  `id_comanda` mediumint(8) UNSIGNED NOT NULL,
-  `cantidad` tinyint(3) UNSIGNED NOT NULL
+CREATE TABLE `ingrediente_x_producto` (
+  `cantidad` int(3) NOT NULL,
+  `id_ingrediente` smallint(4),
+  `id_producto` smallint(4),
+  CONSTRAINT `ingrediente_x_producto_ingrediente_fk` FOREIGN KEY (`id_ingrediente`) REFERENCES `ingrediente` (`id_ingrediente`),
+  CONSTRAINT `ingrediente_x_producto_producto_fk` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `producto_x_pedido`
+-- Estructura de tabla para la tabla `proveedor`
 --
 
-CREATE TABLE `producto_x_pedido` (
-  `id_producto` smallint(4) UNSIGNED NOT NULL,
-  `id_pedido` mediumint(6) UNSIGNED NOT NULL,
-  `cantidad` tinyint(3) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuario`
---
-
-CREATE TABLE `usuario` (
-  `id_usuario` tinyint(3) UNSIGNED NOT NULL,
+CREATE TABLE `proveedor` (
+  `id_proveedor` tinyint(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `nombre` varchar(30) NOT NULL,
-  `apellido` varchar(30) NOT NULL,
-  `dni` mediumint(8) UNSIGNED NOT NULL,
-  `rol` tinyint(1) UNSIGNED NOT NULL,
-  `usuario` varchar(15) NOT NULL,
-  `contrasena` varchar(255) NOT NULL,
-  `usuario_eliminado` tinyint(1) UNSIGNED DEFAULT 0
+  `mail` varchar(40) NOT NULL,
+  `descripcion` varchar(50)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
---
--- Índices para tablas volcadas
---
+-- --------------------------------------------------------
 
 --
--- Indices de la tabla `comanda`
---
-ALTER TABLE `comanda`
-  ADD PRIMARY KEY (`id_comanda`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- Indices de la tabla `factura`
---
-ALTER TABLE `factura`
-  ADD PRIMARY KEY (`id_factura`);
-
---
--- Indices de la tabla `ingrediente`
---
-ALTER TABLE `ingrediente`
-  ADD PRIMARY KEY (`id_ingrediente`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- Indices de la tabla `ingrediente_x_pedido`
---
-ALTER TABLE `ingrediente_x_pedido`
-  ADD PRIMARY KEY (`id_ingrediente`,`id_pedido`);
-
---
--- Indices de la tabla `ingrediente_x_producto`
---
-ALTER TABLE `ingrediente_x_producto`
-  ADD PRIMARY KEY (`id_producto`,`id_ingrediente`);
-
---
--- Indices de la tabla `pedido`
---
-ALTER TABLE `pedido`
-  ADD PRIMARY KEY (`id_pedido`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- Indices de la tabla `producto`
---
-ALTER TABLE `producto`
-  ADD PRIMARY KEY (`id_producto`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- Indices de la tabla `producto_x_comanda`
---
-ALTER TABLE `producto_x_comanda`
-  ADD PRIMARY KEY (`id_producto`,`id_comanda`);
-
---
--- Indices de la tabla `producto_x_pedido`
---
-ALTER TABLE `producto_x_pedido`
-  ADD PRIMARY KEY (`id_producto`,`id_pedido`);
-
---
--- Indices de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id_usuario`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
+-- Estructura de tabla para la tabla `pedido_proveedor`
 --
 
---
--- AUTO_INCREMENT de la tabla `comanda`
---
-ALTER TABLE `comanda`
-  MODIFY `id_comanda` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
+CREATE TABLE `pedido_proveedor` (
+  `id_pedido` mediumint(6) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `fecha_pedido` date NOT NULL DEFAULT current_timestamp(),
+  `id_usuario` tinyint(3),
+  `id_proveedor` tinyint(3),
+   CONSTRAINT `pedido_proveedor_usuario_fk` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`),
+   CONSTRAINT `pedido_proveedor_proveedor_fk` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedor` (`id_proveedor`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- --------------------------------------------------------
 
 --
--- AUTO_INCREMENT de la tabla `factura`
---
-ALTER TABLE `factura`
-  MODIFY `id_factura` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `ingrediente`
---
-ALTER TABLE `ingrediente`
-  MODIFY `id_ingrediente` smallint(4) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `pedido`
---
-ALTER TABLE `pedido`
-  MODIFY `id_pedido` mediumint(6) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `producto`
---
-ALTER TABLE `producto`
-  MODIFY `id_producto` smallint(4) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  MODIFY `id_usuario` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- Restricciones para tablas volcadas
+-- Estructura de tabla para la tabla `ingrediente_x_pedido`
 --
 
---
--- Filtros para la tabla `comanda`
---
-ALTER TABLE `comanda`
-  ADD CONSTRAINT `comanda_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+CREATE TABLE `ingrediente_x_pedido` (
+  `cantidad` decimal(6,2) NOT NULL,
+  `id_ingrediente` smallint(4),
+  `id_pedido` mediumint(6),
+  CONSTRAINT `ingrediente_x_pedido_ingrediente_fk` FOREIGN KEY (`id_ingrediente`) REFERENCES `ingrediente` (`id_ingrediente`),
+  CONSTRAINT `ingrediente_x_pedido_pedido_proveedor_fk` FOREIGN KEY (`id_pedido`) REFERENCES `pedido_proveedor` (`id_pedido`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- --------------------------------------------------------
 
 --
--- Filtros para la tabla `ingrediente`
+-- Estructura de tabla para la tabla `item_factura`
 --
-ALTER TABLE `ingrediente`
-  ADD CONSTRAINT `ingrediente_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
 
---
--- Filtros para la tabla `pedido`
---
-ALTER TABLE `pedido`
-  ADD CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+CREATE TABLE `item_factura` (
+  `cantidad` int(3) NOT NULL,
+  `precio` decimal(6,2) NOT NULL,
+  `id_producto` smallint(4),
+  `id_factura` int(10),
+  CONSTRAINT `item_factura_producto_fk` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`),
+  CONSTRAINT `item_factura_factura_fk` FOREIGN KEY (`id_factura`) REFERENCES `factura` (`id_factura`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
---
--- Filtros para la tabla `producto`
---
-ALTER TABLE `producto`
-  ADD CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+
 COMMIT;
+
+/*
+----
+---- Índices para tablas volcadas
+----
+
+----
+---- Indices de la tabla `comanda`
+----
+--ALTER TABLE `comanda`
+--  ADD PRIMARY KEY (`id_comanda`),
+--  ADD KEY `id_usuario` (`id_usuario`);
+
+----
+---- Indices de la tabla `factura`
+----
+--ALTER TABLE `factura`
+--  ADD PRIMARY KEY (`id_factura`);
+
+----
+---- Indices de la tabla `ingrediente`
+----
+--ALTER TABLE `ingrediente`
+--  ADD PRIMARY KEY (`id_ingrediente`),
+--  ADD KEY `id_usuario` (`id_usuario`);
+
+----
+---- Indices de la tabla `ingrediente_x_pedido`
+----
+--ALTER TABLE `ingrediente_x_pedido`
+--  ADD PRIMARY KEY (`id_ingrediente`,`id_pedido`);
+
+----
+---- Indices de la tabla `ingrediente_x_producto`
+----
+--ALTER TABLE `ingrediente_x_producto`
+--  ADD PRIMARY KEY (`id_producto`,`id_ingrediente`);
+
+----
+---- Indices de la tabla `pedido`
+----
+--ALTER TABLE `pedido`
+--  ADD PRIMARY KEY (`id_pedido`),
+--  ADD KEY `id_usuario` (`id_usuario`);
+
+----
+---- Indices de la tabla `producto`
+----
+--ALTER TABLE `producto`
+--  ADD PRIMARY KEY (`id_producto`),
+--  ADD KEY `id_usuario` (`id_usuario`);
+
+----
+---- Indices de la tabla `producto_x_comanda`
+----
+--ALTER TABLE `producto_x_comanda`
+--  ADD PRIMARY KEY (`id_producto`,`id_comanda`);
+
+----
+---- Indices de la tabla `producto_x_pedido`
+----
+--ALTER TABLE `producto_x_pedido`
+--  ADD PRIMARY KEY (`id_producto`,`id_pedido`);
+
+----
+---- Indices de la tabla `usuario`
+----
+--ALTER TABLE `usuario`
+--  ADD PRIMARY KEY (`id_usuario`);
+
+----
+---- AUTO_INCREMENT de las tablas volcadas
+----
+
+----
+---- AUTO_INCREMENT de la tabla `comanda`
+----
+--ALTER TABLE `comanda`
+--  MODIFY `id_comanda` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+----
+---- AUTO_INCREMENT de la tabla `factura`
+----
+--ALTER TABLE `factura`
+--  MODIFY `id_factura` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+----
+---- AUTO_INCREMENT de la tabla `ingrediente`
+----
+--ALTER TABLE `ingrediente`
+--  MODIFY `id_ingrediente` smallint(4) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+----
+---- AUTO_INCREMENT de la tabla `pedido`
+----
+--ALTER TABLE `pedido`
+--  MODIFY `id_pedido` mediumint(6) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+----
+---- AUTO_INCREMENT de la tabla `producto`
+----
+--ALTER TABLE `producto`
+--  MODIFY `id_producto` smallint(4) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+----
+---- AUTO_INCREMENT de la tabla `usuario`
+----
+--ALTER TABLE `usuario`
+--  MODIFY `id_usuario` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+----
+---- Restricciones para tablas volcadas
+----
+
+----
+---- Filtros para la tabla `comanda`
+----
+--ALTER TABLE `comanda`
+--  ADD CONSTRAINT `comanda_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+
+----
+---- Filtros para la tabla `ingrediente`
+----
+--ALTER TABLE `ingrediente`
+--  ADD CONSTRAINT `ingrediente_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+
+----
+---- Filtros para la tabla `pedido`
+----
+--ALTER TABLE `pedido`
+--  ADD CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+
+----
+---- Filtros para la tabla `producto`
+----
+--ALTER TABLE `producto`
+--  ADD CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+*/
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
