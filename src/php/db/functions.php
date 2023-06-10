@@ -133,4 +133,78 @@ function add_user($connection, $name, $surname, $dni, $role, $username, $passwor
     $result = mysqli_query($connection, $query) or die("Error al agregar usuario a la base de datos.");
     return $result;
 }
+
+function get_user_list($connection) {
+    $result = mysqli_query($connection, "SELECT nombre_usuario, rol FROM usuario ORDER BY rol ASC;") or die("dije basta de error catching");
+    $user_list = array();
+
+    while ($row = mysqli_fetch_assoc($result))
+        array_push($user_list, $row["nombre_usuario"], $row["rol"]);
+    mysqli_free_result($result);
+    return $user_list;
+}
+
+function get_product_list($connection) {
+    $result = mysqli_query($connection, "SELECT nombre_producto, precio, tipo FROM producto;") or die("Error al obtener la lista de productos desde la base de datos");
+    $product_list = array();
+
+    while ($row = mysqli_fetch_assoc($result))
+        array_push($product_list, $row["nombre_producto"], $row["precio"], $row["tipo"]);
+    mysqli_free_result($result);
+    return $product_list;
+}
+
+function get_available_ingredients($connection) {
+    $result = mysqli_query($connection, "SELECT nombre_ingrediente, unidad_medida FROM ingrediente;") or die("BASTA DE ERROR CATCHING");
+    $available_ingredients = array();
+
+    while ($row = mysqli_fetch_assoc($result))
+        array_push($available_ingredients, $row["nombre_ingrediente"], $row["unidad_medida"]);
+    mysqli_free_result($result);
+    return $available_ingredients;
+}
+
+function get_product_ingredients($connection) {
+    $result = mysqli_query($connection, "SELECT COUNT(id_producto) AS cantidad_productos FROM producto;") or die("Error al obtener los ingredientes por producto desde la base de datos");
+    $row = mysqli_fetch_assoc($result);
+    $product_qty = (int)$row["cantidad_productos"];
+
+    $product_array = array();
+    $ingredients = array();
+
+    for($i = 1; $i <= $product_qty; $i++) {
+        $query = sprintf("SELECT i.nombre_ingrediente FROM ingrediente_x_producto ixp INNER JOIN ingrediente i ON (i.id_ingrediente = ixp.id_ingrediente) WHERE ixp.id_producto = %d;", $i);
+
+        $result = mysqli_query($connection, $query) or die ("Error get_product_ingredient");
+
+        while ($row = mysqli_fetch_assoc($result))
+            array_push($ingredients, $row["nombre_ingrediente"]);
+        array_push($product_array, $ingredients);
+        $ingredients = [];
+    }
+    mysqli_free_result($result);
+    return $product_array;
+}
+
+function get_product_ingredient_amounts($connection) {
+    $result = mysqli_query($connection, "SELECT COUNT(id_producto) AS cantidad_productos FROM producto;") or die("Error al obtener las cantidades de ingrediente por producto desde la base de datos");
+    $row = mysqli_fetch_assoc($result);
+    $product_qty = (int)$row["cantidad_productos"];
+
+    $product_array = array();
+    $amounts = array();
+
+    for($i = 1; $i <= $product_qty; $i++) {
+        $query = sprintf("SELECT ixp.cantidad FROM ingrediente_x_producto ixp WHERE ixp.id_producto = %d;", $i);
+
+        $result = mysqli_query($connection, $query) or die ("Error get_product_ingredient_amounts");
+
+        while ($row = mysqli_fetch_assoc($result))
+            array_push($amounts, $row["cantidad"]);
+        array_push($product_array, $amounts);
+        $amounts = [];
+    }
+    mysqli_free_result($result);
+    return $product_array;
+}
 ?>

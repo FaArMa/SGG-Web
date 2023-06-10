@@ -80,4 +80,68 @@ if ($_POST["action"] === "add_user") {
     mysqli_close($connection);
     die;
 }
+
+/*
+*   Devuelve los productos con sus precios y tipos
+*
+*
+*/
+if ($_POST["action"] === "get_product_list") {
+    $query_result = get_product_list($connection);
+    echo implode(',',$query_result);
+    mysqli_close($connection);
+    die;
+}
+
+/*
+*   Devuelve todos los ingredientes
+*
+*
+*/
+if ($_POST["action"] === "get_available_ingredients") {
+    $query_result = get_available_ingredients($connection);
+    header('Content-Type: application/json');
+    echo implode(',',$query_result);
+    mysqli_close($connection);
+    die;
+}
+
+/*
+*   Devuelve los ingredientes de todos los productos
+*
+*
+*/
+if ($_POST["action"] === "get_product_ingredients") {
+    $query_result = get_product_ingredients($connection);
+    header('Content-Type: application/json');
+    echo json_encode($query_result);
+    mysqli_close($connection);
+    die;
+}
+
+/*
+*   Devuelve las cantidades de cada ingrediente de todos los productos
+*
+*
+*/
+if ($_POST["action"] === "get_product_ingredient_amounts") {
+    $query_result = get_product_ingredient_amounts($connection);
+    header('Content-Type: application/json');
+    echo json_encode($query_result);
+    mysqli_close($connection);
+    die;
+}
+
+/*
+*   Devuelve los usuarios y sus roles
+*
+*
+*/
+if ($_POST["action"] === "get_user_list") {
+    $query_result = get_user_list($connection);
+    header('Content-Type: application/json');
+    echo implode(',',$query_result);
+    mysqli_close($connection);
+    die;
+}
 ?>
