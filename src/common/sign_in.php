@@ -43,7 +43,7 @@ $button = ($_SESSION["users_count"] == 0) ? "Registrarse" : "Agregar";
     <!-- Header -->
     <?php require_once("../php/header.php"); ?>
     <!-- Contenido -->
-    <section>
+    <section id="add-user">
         <h1 class="neon" data-text="U"><?php echo $title; ?></h1>
         <?php echo ($_SESSION["users_count"] === 0) ? "<p>Aviso: Sos el primer usuario y por lo tanto obtendrás el rol de Dueño</p>" : ""; ?>
         <form action="../php/sign_in.php" method="post">

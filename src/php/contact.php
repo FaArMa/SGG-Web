@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = sanitize_input($_POST["name"]);
     $email = sanitize_input($_POST["email"]);
     $msg = sanitize_input($_POST["msg"]);
-    
+
     // Controlar el nombre ingresado
     if (empty($name))
         $name_error = "Se debe ingresar un nombre";
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (@mail($to, $subject, $message, "From: " . $from))
             echo "Formulario enviado con éxito.";
         else
-            echo "Hubo un error al enviar su formulario.";
+            echo "<div id=\"error\"><p>Hubo un error al enviar su formulario</p></div>";
     }
 }
 ?>

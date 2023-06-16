@@ -26,8 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header("Location: /SGG-Web/src/common/control_panel.php");
     } else {
         // Establecer el mensaje de error y redirigir al usuario a la página de inicio
-        $_SESSION["log_in_error"] = "Usuario y/o contraseña incorrectos.";
-        header("Location: /SGG-Web/");
+        $_SESSION["log_in_error"] = "Usuario y/o contraseña incorrectos";
+        header("Location: /SGG-Web/#error");
     }
     // Cerrar la conexión a la base de datos
     mysqli_close($connection);

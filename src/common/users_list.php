@@ -47,11 +47,11 @@ mysqli_close($connection);
     <!-- Contenido -->
     <section id="users-list">
         <h1 class="neon" data-text="U"><span class="flicker-slow">L</span>ist<span class="flicker-fast">a</span> de <span class="flicker-slow">us</span>uar<span class="flicker-fast">io</span>s</h1>
-        <form action="<?php echo sanitize_input($_SERVER["PHP_SELF"]); ?>" method="get">
+        <form action="<?php echo sanitize_input($_SERVER["PHP_SELF"]); ?>#content" method="get">
             <input type="text" id="surname" name="surname" placeholder="Escribe un apellido..." value="<?php echo $surname_searched; ?>">
             <button type="submit" id="btn-send">Buscar</button>
         </form>
-        <a href="sign_in.php" id="agregate"><i id="add" class="fa-solid fa-circle-plus"></i> Agregar usuario</a>
+        <a href="sign_in.php#add-user" id="agregate"><i id="add" class="fa-solid fa-circle-plus"></i> Agregar usuario</a>
         <table>
             <thead>
                 <tr>
@@ -66,7 +66,7 @@ mysqli_close($connection);
                     <th colspan="2">Acción</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="content">
                 <?php
                 // Recorrer cada usuario y mostrar los datos en filas de la tabla
                 foreach ($users as $row) {

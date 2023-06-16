@@ -6,13 +6,13 @@
             <?php
             // Visible solamente al tener una sesión iniciada
             if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true)
-                echo "<li><a href=\"/SGG-Web/src/common/control_panel.php\" class=\"menu-item\">Panel de control</a></li>";
+                echo "<li><a href=\"/SGG-Web/src/common/control_panel.php#control-content\" class=\"menu-item\">Panel de control</a></li>";
             ?>
-            <li><a href="/SGG-Web/src/common/contact.php" class="menu-item">Contacto</a></li>
+            <li><a href="/SGG-Web/src/common/contact.php#contact" class="menu-item">Contacto</a></li>
             <?php
             // Visible a menos que hayas iniciado sesión
             if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] === false) {
-                echo "<li><a href=\"/SGG-Web/src/common/log_in.php\" class=\"menu-item\">Iniciar sesión</a></li>";
+                echo "<li><a href=\"/SGG-Web/src/common/log_in.php#log-in\" class=\"menu-item\">Iniciar sesión</a></li>";
                 // Si no existe users_count debo obtenerlo
                 if (!isset($_SESSION["users_count"])) {
                     require_once("src/php/db/connection.php");
@@ -22,7 +22,7 @@
                 }
                 // Si existe users_count y vale 0 entonces muestro Registrarse (caso contrario lo oculto)
                 if ($_SESSION["users_count"] === 0)
-                    echo "<li><a href=\"/SGG-Web/src/common/sign_in.php\" class=\"menu-item\">Registrarse</a></li>";
+                    echo "<li><a href=\"/SGG-Web/src/common/sign_in.php#add-user\" class=\"menu-item\">Registrarse</a></li>";
             } else
                 // Visible solamente al tener una sesión iniciada
                 echo "<li><a href=\"/SGG-Web/src/common/log_out.php\" class=\"menu-item\">Cerrar sesión</a></li>";

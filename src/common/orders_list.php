@@ -3,11 +3,12 @@
 session_start();
 
 /*
- * Verificar si el usuario ha iniciado sesión.
- * Si no se ha iniciado sesión o la variable $_SESSION["logged_in"] es falsa,
+ * Verificar si el usuario ha iniciado sesión y tiene el rol adecuado.
+ * Si no se ha iniciado sesión, la variable $_SESSION["logged_in"] es falsa
+ * o el valor de $_SESSION["role"] no es igual a 0 (Dueño) o 1 (Encargado),
  * se redirecciona a la página de inicio de sesión y se finaliza la ejecución del script.
  */
-if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] === false) {
+if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] === false || $_SESSION["role"] > 1) {
     header("Location: /SGG-Web/src/common/log_in.php");
     die;
 }
@@ -51,8 +52,6 @@ mysqli_close($connection);
             <input type="text" id="date" name="date" placeholder="Ingresa la fecha..." value="<?php echo $surname_searched; ?>">
             <button type="submit" id="btn-send">Buscar</button>
         </form>
-        <!--Solo pide un CRUD pero se podría reciclar el de usuarios... por lo pronto saco el boton de agregar-->
-        <!--<a href="#" id="agregate"><i id="add" class="fa-solid fa-circle-plus"></i> Nuevo pedido</a>-->
         <table>
             <thead>
                 <tr>
@@ -60,7 +59,6 @@ mysqli_close($connection);
                     <th>Fecha de Creación</th>
                     <th>Estado</th>
                     <th>Usuario que lo creó</th>
-                    <th colspan="2">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -72,8 +70,6 @@ mysqli_close($connection);
                     echo "<td>" . $row["fecha"] . "</td>";
                     echo "<td>" . $row["estado"] . "</td>";
                     echo "<td>" . $row["id_usuario"] . "</td>";     //¿Es necesario...? ¿Hacer un join del id del usuario con la tabla usuario y devolver su apellido?
-                    echo "<td><a href=\"#\"><i class=\"fa-solid fa-pen-to-square\"></i></a></td>";
-                    echo "<td><a href=\"#\"><i class=\"fa-solid fa-trash-can\"></i></a></td>";
                     echo "</tr>";
                 }
                 ?>

@@ -22,18 +22,18 @@ session_start();
 <body>
     <!-- Header -->
     <?php require_once("src/php/header.php"); ?>
-    <?php
-    /**
-     * Muestra un mensaje de error si se produjo un error en el inicio de sesión.
-     * Si existe un mensaje de error, se muestra y luego se destruye la variable para evitar que aparezca después de actualizar la página.
-     */
-    if (isset($_SESSION["log_in_error"])) {
-        echo "<p>" . $_SESSION["log_in_error"] . "</p>";
-        unset($_SESSION["log_in_error"]);
-    }
-    ?>
     <!-- Contenido -->
     <section>
+        <?php
+            /**
+             * Muestra un mensaje de error si se produjo un error en el inicio de sesión.
+             * Si existe un mensaje de error, se muestra y luego se destruye la variable para evitar que aparezca después de actualizar la página.
+             */
+            if (isset($_SESSION["log_in_error"])) {
+                echo "<div id=\"error\"><p>" . $_SESSION["log_in_error"] . "</p></div>";
+                unset($_SESSION["log_in_error"]);
+            }
+        ?>
         <h1 class="neon" data-text="U">SG<span class="flicker-slow">G</span>-<span class="flicker-fast">W</span>EB</h1>
         <p class="description">Una herramienta útil para la gestión de empleados y ventas de tu aplicación de Sistema de Gestión Gastronómico, proporcionando acceso seguro y controlado para dueños y encargados de su emprendimiento.</p>
         <!--AGREGAR GALERIA CON PARALLAX DE IMAGENES GENERICAS DE COCINA/GASTRONOMIA RANDOM CON PHP?-->

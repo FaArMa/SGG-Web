@@ -22,11 +22,11 @@ session_start();
 <body>
     <!-- Header -->
     <?php require_once("../php/header.php"); ?>
-    <?php require_once("../php/contact.php"); ?>
     <!-- Contenido -->
-    <section>
+    <section id="contact">
+        <?php require_once("../php/contact.php"); ?>
         <h1 class="neon" data-text="U">C<span class="flicker-slow">o</span>nt<span class="flicker-fast">ac</span>to</h1>
-        <form action="<?php echo sanitize_input($_SERVER["PHP_SELF"]); ?>" method="post">
+        <form action="<?php echo sanitize_input($_SERVER["PHP_SELF"]); ?>#error" method="post">
             <label for="name">Nombre</label> <span>*<?php echo $name_error ?></span>
             <input type="text" id="name" name="name" placeholder="Escribe tu nombre..." value="<?php echo $name; ?>">
             <label for="email">Correo electrónico</label> <span>*<?php echo $email_error ?></span>

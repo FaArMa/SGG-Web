@@ -38,9 +38,15 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] === false) {
         <div>
             <?php
             // Solo lo ve el Dueño
-            if ($_SESSION["role"] === 0)
-                echo "<a href=\"/SGG-Web/src/common/users_list.php\"><div id=\"user-list\"><p>Lista de usuarios</p></div></a>";
-            echo "<a href=\"/SGG-Web/src/common/orders_list.php\"><div id=\"order-list\"><p>Lista de pedidos</p></div></a>";
+            if($_SESSION["role"] === 0)
+                echo "<a href=\"/SGG-Web/src/common/users_list.php#users-list\"><div id=\"user-list\"><p>Lista de usuarios</p></div></a>";
+            // Solo lo ve el Dueño y Encargado
+            if($_SESSION["role"] <= 1){
+                echo "<a href=\"/SGG-Web/src/common/orders_list.php#orders-list\"><div id=\"order-list\"><p>Lista de pedidos</p></div></a>";
+            }
+            // Cualquier otro rol no tiene acceso
+            else
+                echo "<a href=\"log_out.php\"><div id=\"no-permission\"><p>YOU SHALL NOT PASS</p></div></a>";
             ?>
         </div>
     </section>
