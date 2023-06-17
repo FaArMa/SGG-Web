@@ -51,6 +51,13 @@ if ($_POST["action"] === "get_user_role") {
     die;
 }
 
+/* Devuelve datos del usuario */
+if ($_POST["action"] === "get_user_info"){
+    $query_result = get_user_info($connection, $_POST["username"]);
+    echo implode(',',$query_result);
+    mysqli_close($connection);
+    die;
+}
 
 /*
  * Verifica si la acción es "validate_user_credentials" y valida las credenciales del usuario.
@@ -81,11 +88,26 @@ if ($_POST["action"] === "add_user") {
     die;
 }
 
-/*
-*   Devuelve los productos con sus precios y tipos
-*
-*
-*/
+/* Modifica datos del usuario */
+if ($_POST["action"] === "modify_user") {
+    $_POST["name"] = sanitize_input($_POST["name"]);
+    $_POST["surname"] = sanitize_input($_POST["surname"]);
+    $_POST["dni"] = sanitize_input($_POST["dni"]);
+    $_POST["role"] = sanitize_input($_POST["role"]);
+    $_POST["username"] = sanitize_input($_POST["username"]);
+    echo modify_user($connection, $_POST["name"], $_POST["surname"], (int) $_POST["dni"], (int) $_POST["role"], $_POST["username"], $_POST["user_id"], $_POST["password"]);
+    mysqli_close($connection);
+    die;
+}
+
+/* Elimina usuario */
+if ($_POST["action"] === "delete_user"){
+    $query_result = delete_user($connection, $_POST["username"]);
+    mysqli_close($connection);
+    die;
+}
+
+/* Devuelve los productos con sus precios y tipos */
 if ($_POST["action"] === "get_product_list") {
     $query_result = get_product_list($connection);
     echo implode(',',$query_result);
@@ -93,11 +115,7 @@ if ($_POST["action"] === "get_product_list") {
     die;
 }
 
-/*
-*   Devuelve todos los ingredientes
-*
-*
-*/
+/* Devuelve todos los ingredientes */
 if ($_POST["action"] === "get_available_ingredients") {
     $query_result = get_available_ingredients($connection);
     echo implode(',',$query_result);
@@ -105,11 +123,7 @@ if ($_POST["action"] === "get_available_ingredients") {
     die;
 }
 
-/*
-*   Devuelve los ingredientes de todos los productos
-*
-*
-*/
+/* Devuelve los ingredientes de todos los productos */
 if ($_POST["action"] === "get_product_ingredients") {
     $query_result = get_product_ingredients($connection);
     header('Content-Type: application/json');
@@ -118,11 +132,7 @@ if ($_POST["action"] === "get_product_ingredients") {
     die;
 }
 
-/*
-*   Devuelve las cantidades de cada ingrediente de todos los productos
-*
-*
-*/
+/* Devuelve las cantidades de cada ingrediente de todos los productos */
 if ($_POST["action"] === "get_product_ingredient_amounts") {
     $query_result = get_product_ingredient_amounts($connection);
     header('Content-Type: application/json');
@@ -131,14 +141,62 @@ if ($_POST["action"] === "get_product_ingredient_amounts") {
     die;
 }
 
-/*
-*   Devuelve los usuarios y sus roles
-*
-*
-*/
+/* Devuelve los usuarios y sus roles */
 if ($_POST["action"] === "get_user_list") {
     $query_result = get_user_list($connection);
     echo implode(',',$query_result);
+    mysqli_close($connection);
+    die;
+}
+
+/* Modifica nombre, precio, o ambos datos de producto */
+if($_POST["action"] === "modify_product_data"){
+    $query_result = modify_product_data($connection, (float) $_POST["nuevo_precio"], $_POST["nuevo_nombre_producto"], $_POST["viejo_nombre_producto"]);
+    echo $query_result;
+    mysqli_close($connection);
+    die;
+}
+
+/* Agrega producto y sus ingredientes*/
+if($_POST["action"] === "add_product"){
+    $query_add_product = add_product($connection, $_POST["nombre"], $_POST["tipo"], $_POST["precio"]);
+
+    foreach(json_decode($_POST["ingredientes"],true) as $nombre_ingrediente => $cantidad_unidad) {
+        $query_add_ingredients = add_product_ingredients($connection, $nombre_ingrediente, $cantidad_unidad[0], $cantidad_unidad[1], $query_add_product);
+    }
+    
+    mysqli_close($connection);
+    die;
+}
+
+/* Elimina producto */
+if ($_POST["action"] === "delete_product") {
+    $query_result = delete_product($connection,$_POST["nombre_producto"]);
+    echo $query_result;
+    mysqli_close($connection);
+    die;
+}
+
+/* Crea factura, le asigna productos y el importe total */
+if ($_POST["action"] === "generate_bill") {
+    $query_result_bill_id = generate_bill($connection, $_POST["mesa"], $_POST["nombre_usuario"]);
+
+    foreach(json_decode($_POST["productos"],true) as $nombre_producto => $cantidad) {
+        $query_add_bill_item = set_bill_item($connection, $nombre_producto, $cantidad, $query_result_bill_id);
+    }
+
+    $query_bill_total_sum = set_bill_total_amount($connection, $query_result_bill_id);
+
+    mysqli_close($connection);
+    die;
+}
+
+/* Busca facturas emitidas entre cierta fecha */
+if ($_POST["action"] === "billing_search"){
+    $query_result = billing_search($connection, $_POST["desde"], $_POST["hasta"]);
+
+    echo implode(',',$query_result);
+
     mysqli_close($connection);
     die;
 }
