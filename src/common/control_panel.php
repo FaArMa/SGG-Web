@@ -38,15 +38,20 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] === false) {
         <div>
             <?php
             // Solo lo ve el Dueño
-            if($_SESSION["role"] === 0)
+            if ($_SESSION["role"] === 0)
                 echo "<a href=\"/SGG-Web/src/common/users_list.php#users-list\"><div id=\"user-list\"><p>Lista de usuarios</p></div></a>";
             // Solo lo ve el Dueño y Encargado
-            if($_SESSION["role"] <= 1){
+            if ($_SESSION["role"] <= 1)
                 echo "<a href=\"/SGG-Web/src/common/orders_list.php#orders-list\"><div id=\"order-list\"><p>Lista de pedidos</p></div></a>";
+            // Solo lo ven los demás roles ya que NO deberían estar aquí
+            else {
+                if ((rand() / getrandmax()) <= 0.25575)
+                    // Otro huevo de pascua porque el del header.php no es suficiente
+                    echo "<a href=\"log_out.php\"><div id=\"no-permission\" class=\"eg-a\"><p>Acceso no autorizado</p></div></a>";
+                else
+                    // No, esto no es un huevo de pascua
+                    echo "<a href=\"log_out.php\" title=\"Acceso no autorizado\"><div id=\"no-permission\"><p>YOU SHALL NOT PASS</p></div></a>";
             }
-            // Cualquier otro rol no tiene acceso
-            else
-                echo "<a href=\"log_out.php\"><div id=\"no-permission\"><p>YOU SHALL NOT PASS</p></div></a>";
             ?>
         </div>
     </section>

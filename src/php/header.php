@@ -1,6 +1,26 @@
+<?php
+/*
+ * Huevos de Pascua
+ * Misma probabilidad de aparición que un Item Especial Raro con StatTrak en CS: GO (bueno, sin contar otros detalles)
+ */
+if ((rand() / getrandmax()) <= 0.02558) {
+    switch (rand(0, 2)) {
+        case 0:
+            echo "<img src=\"/SGG-Web/src/img/eg/fbi_seized.jpg\">";
+            die;
+        case 1:
+            echo "<img src=\"/SGG-Web/src/img/eg/elephpant-running.gif\" width=\"117\" height=\"72\">";
+            die("<br>ElePHPant E GOOOOOOOOOD, ElePHPant E GOOOOOOOOOD, NAAAAAAAAAAASHE, GOOOOOOOOOD GOOOOOOOOOD<br>Perdón, Metodología de Sistemas nos hizo mucho daño.");
+        case 2:
+            echo "<iframe width=\"640\" height=\"360\" src=\"https://www.youtube-nocookie.com/embed/khYALqZ3FhA?start=41&autoplay=1\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>";
+            die;
+        default:
+            break;
+    }
+}
+?>
 <header>
     <nav id="navbar">
-        <!--<a href="#" class="nav-icon" title="Barra de navegación"><i class="fa-solid fa-bars"></i></a>-->
         <ul id="menu-items">
             <li><a href="/SGG-Web/" class="menu-item">Inicio</a></li>
             <?php

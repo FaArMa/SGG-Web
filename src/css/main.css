@@ -425,6 +425,16 @@ select {
     text-shadow: 0px 0px 0.5rem #CCC5B9;
 }
 
+#no-permission.eg-a {
+    background-image: url("../img/eg/grab_shovel.jpg");
+    width: 520px;
+}
+
+#no-permission.eg-a > p {
+    color: #FF0D0D;
+    text-shadow: 0px 0px 0.5rem #FF0000;
+}
+
 /*
  * Lista de Usuarios
  */
