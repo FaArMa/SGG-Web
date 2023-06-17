@@ -13,14 +13,22 @@ $_POST["dni"] = sanitize_input($_POST["dni"]);
 $_POST["role"] = sanitize_input($_POST["role"]);
 $_POST["username"] = sanitize_input($_POST["username"]);
 
-// Registrar/agregar un nuevo usuario a la base de datos
-add_user($connection, $_POST["name"], $_POST["surname"], $_POST["dni"], $_POST["role"], $_POST["username"], $_POST["password"]);
+if (isset($_POST["id"])) {
+    if (isset($_POST["delete_user"]))
+        // Eliminar al usuario en la base de datos (baja lógica)
+        delete_user($connection, $_POST["username"]);
+    else
+        // Actualizar los datos del usuario en la base de datos
+        modify_user($connection, $_POST["name"], $_POST["surname"], $_POST["dni"], $_POST["role"], $_POST["username"], $_POST["password"], $_POST["id"]);
+} else {
+    // Registrar/agregar un nuevo usuario a la base de datos
+    add_user($connection, $_POST["name"], $_POST["surname"], $_POST["dni"], $_POST["role"], $_POST["username"], $_POST["password"]);
+    // Incrementa el contador de usuarios en la sesión si se registró/agregó correctamente
+    ++$_SESSION["users_count"];
+}
 
 // Cerrar la conexión a la base de datos
 mysqli_close($connection);
-
-// Incrementa el contador de usuarios en la sesión si se registró/agregó correctamente
-++$_SESSION["users_count"];
 
 // Redirige al usuario a la página de inicio
 header("Location: /SGG-Web/");

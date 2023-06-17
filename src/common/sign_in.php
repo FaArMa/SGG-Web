@@ -21,6 +21,21 @@ $page_title = ($_SESSION["users_count"] == 0) ? "Registrarse" : "Agregar Usuario
 $title = ($_SESSION["users_count"] == 0) ? "Re<span class=\"flicker-slow\">g</span>ist<span class=\"flicker-fast\">rar</span>se" : "Agr<span class=\"flicker-fast\">eg</span>ar <span class=\"flicker-slow\">Us</span>uar<span class=\"flicker-fast\">io</span>";
 $button = ($_SESSION["users_count"] == 0) ? "Registrarse" : "Agregar";
 
+
+/*
+ * Modo de edición:
+ * Si el parámetro GET "edit_user" está establecido y no vació,
+ * se activa el modo de edición y se actualizan los valores correspondientes.
+ * El título de la página se establece como "Editar Usuario",
+ * el título principal se actualiza con efectos de estilo y el botón se establece como "Actualizar".
+ */
+$edit_mode = false;
+if (!empty($_GET["edit_user"])) {
+    $edit_mode = true;
+    $page_title = "Editar Usuario";
+    $title = "<h1 class=\"neon\" data-text=\"U\">Ed<span class=\"flicker-slow\">i</span>t<span class=\"flicker-fast\">ar</span> us<span class=\"flicker-slow\">u</span>ari<span class=\"flicker-fast\">o</span></h1>";
+    $button = "Actualizar";
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -47,32 +62,47 @@ $button = ($_SESSION["users_count"] == 0) ? "Registrarse" : "Agregar";
         <h1 class="neon" data-text="U"><?php echo $title; ?></h1>
         <?php echo ($_SESSION["users_count"] === 0) ? "<p>Aviso: Sos el primer usuario y por lo tanto obtendrás el rol de Dueño</p>" : ""; ?>
         <form action="../php/sign_in.php" method="post">
+            <?php if ($edit_mode): ?>
+                <?php
+                require_once("../php/db/connection.php");
+                require_once("../php/db/functions.php");
+                $user = get_user_info($connection, $_GET["edit_user"]);
+                mysqli_close($connection);
+                ?>
+                <input type="hidden" name="id" value="<?php echo $user["id_usuario"]; ?>">
+            <?php else: ?>
+                <?php
+                // Variables predeterminadas cuando no estás en modo de edición
+                $user = [
+                    "nombre" => "",
+                    "apellido" => "",
+                    "dni" => "",
+                    "rol" => 0
+                ];
+                ?>
+            <?php endif; ?>
             <label for="name">Nombre</label>
-            <input type="text" id="name" name="name" placeholder="Escribe tu nombre..." required>
+            <input type="text" id="name" name="name" placeholder="Escribe tu nombre..." minlength="1" maxlength="30" value="<?php echo $user["nombre"]; ?>" required>
             <label for="surname">Apellido</label>
-            <input type="text" id="surname" name="surname" placeholder="Escribe tu apellido..." required>
+            <input type="text" id="surname" name="surname" placeholder="Escribe tu apellido..." minlength="1" maxlength="30" value="<?php echo $user["apellido"]; ?>" required>
             <label for="dni">DNI</label>
-            <input type="number" id="dni" name="dni" placeholder="Escribe tu DNI..." required>
-            <!-- TODO Este sito web está pensado para Dueño y Contador
-                Tocará modificar log_in.php para que no permita iniciar sesión a Encargado y Empleado o algo así
-            -->
+            <input type="number" id="dni" name="dni" placeholder="Escribe tu DNI..." min="1000" max="99999999" value="<?php echo $user["dni"]; ?>" required>
             <label for="role">Rol</label>
             <select id="role" name="role" <?php echo ($_SESSION["users_count"] == 0) ? " disabled" : ""; ?>>
-                <option value="0">Dueño</option>
-                <option value="1">Encargado</option>
-                <option value="2">Empleado</option>
-                <option value="3">Contador</option>
+                <option value="0" <?php echo ($user["rol"] == 0) ? "selected" : ""; ?>>Dueño</option>
+                <option value="1" <?php echo ($user["rol"] == 1) ? "selected" : ""; ?>>Encargado</option>
+                <option value="2" <?php echo ($user["rol"] == 2) ? "selected" : ""; ?>>Empleado</option>
+                <option value="3" <?php echo ($user["rol"] == 3) ? "selected" : ""; ?>>Contador</option>
             </select>
-            <!--TODO Generar automáticamente (no editable) el usuario y contraseña
-                - Usuario    : Primer letra del Nombre + Apellido + ID
-                - Contraseña : Últimos 4 dígitos del DNI
-                - Ejemplo    : 1 | Pepe | Argento | 12345789 | Dueño | PArgento1 | 5789
-            -->
             <label for="username">Usuario</label>
-            <input type="text" id="username" name="username" placeholder="Escribe tu usuario..." required>
+            <input type="text" id="username" name="username" placeholder="Usuario: Primer letra del Nombre + Apellido" title="Usuario: Primer letra del Nombre + Apellido" minlength="2" maxlength="31" readonly>
             <label for="password">Contraseña</label>
-            <input type="password" id="password" name="password" placeholder="Escribe tu contraseña..." required>
+            <input type="password" id="password" name="password" placeholder="Contraseña: Últimos 4 dígitos del DNI" title="Contraseña: Últimos 4 dígitos del DNI" minlength="4" maxlength="4" readonly>
             <button type="submit" id="btn-send"><?php echo $button; ?></button>
+            <?php if ($edit_mode): ?>
+                <!-- XXX ¿Hacer uno para Restaurar al Usuario Eliminado? -->
+                <button type="button" id="btn-delete">Eliminar</button>
+            <?php endif; ?>
         </form>
     </section>
     <!-- Footer -->
