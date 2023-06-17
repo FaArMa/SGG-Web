@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 17, 2023 at 08:06 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Jun 17, 2023 at 09:55 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,10 +42,10 @@ CREATE TABLE `factura` (
 --
 /*
 INSERT INTO `factura` (`id_factura`, `fecha_emision`, `mesa`, `importe`, `id_usuario`) VALUES
-(6, '2022-11-26', 'D3', '5820.00', 19),
-(10, '2023-06-18', 'S1', '7420.00', 12),
-(11, '2023-06-16', 'S3', '5200.00', 13),
-(12, '2023-06-16', 'S3', '14513.00', 12);
+(1, '2022-11-26', 'D3', 5820.00, 17),
+(2, '2023-06-18', 'S1', 7420.00, 10),
+(3, '2023-06-16', 'S3', 5200.00, 11),
+(4, '2023-06-16', 'S3', 14513.00, 10);
 */
 -- --------------------------------------------------------
 
@@ -58,7 +58,7 @@ CREATE TABLE `ingrediente` (
   `nombre_ingrediente` varchar(40) NOT NULL,
   `stock` int(4) DEFAULT NULL,
   `unidad_medida` varchar(3) DEFAULT NULL,
-  `baja` tinyint(1) DEFAULT 0
+  `baja` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
@@ -75,11 +75,11 @@ INSERT INTO `ingrediente` (`id_ingrediente`, `nombre_ingrediente`, `stock`, `uni
 (7, 'coca', 10, 'lt', 0),
 (8, 'jugo de naranja', 5, 'lt', 0),
 (9, 'campari', 8, 'lt', 0),
-(15, 'pan brioche', 200, 'u', 0),
-(16, 'manteca', 200, 'gr', 0),
-(17, 'hielo entero', 200, 'gr', 0),
-(18, 'aperol', 200, 'lt', 0),
-(19, 'vino espumante', 200, 'lt', 0);
+(10, 'pan brioche', 200, 'u', 0),
+(11, 'manteca', 200, 'gr', 0),
+(12, 'hielo entero', 200, 'gr', 0),
+(13, 'aperol', 200, 'lt', 0),
+(14, 'vino espumante', 200, 'lt', 0);
 */
 -- --------------------------------------------------------
 
@@ -110,25 +110,25 @@ CREATE TABLE `ingrediente_x_producto` (
 --
 /*
 INSERT INTO `ingrediente_x_producto` (`cantidad`, `id_ingrediente`, `id_producto`) VALUES
-('200.00', 1, 1),
-('360.00', 4, 2),
-('40.00', 2, 1),
-('240.00', 3, 1),
-('300.00', 5, 2),
-('0.06', 6, 3),
-('0.24', 7, 3),
-('0.24', 8, 4),
-('0.06', 9, 4),
-('0.35', 7, 5),
-('1.50', 7, 12),
-('100.00', 5, 16),
-('400.00', 1, 16),
-('1.00', 15, 16),
-('30.00', 16, 16),
-('0.02', 8, 17),
-('50.00', 17, 17),
-('0.06', 18, 17),
-('0.22', 19, 17);
+(200.00, 1, 1),
+(360.00, 4, 2),
+(40.00, 2, 1),
+(240.00, 3, 1),
+(300.00, 5, 2),
+(0.06, 6, 3),
+(0.24, 7, 3),
+(0.24, 8, 4),
+(0.06, 9, 4),
+(0.35, 7, 5),
+(1.50, 7, 6),
+(100.00, 5, 7),
+(400.00, 1, 7),
+(1.00, 10, 7),
+(30.00, 11, 7),
+(0.02, 8, 8),
+(50.00, 12, 8),
+(0.06, 13, 8),
+(0.22, 14, 8);
 */
 -- --------------------------------------------------------
 
@@ -148,14 +148,14 @@ CREATE TABLE `item_factura` (
 --
 /*
 INSERT INTO `item_factura` (`cantidad`, `precio`, `id_producto`, `id_factura`) VALUES
-(1, '1020.00', 12, 6),
-(2, '4800.00', 16, 6),
-(1, '1020.00', 12, 10),
-(2, '6400.00', 1, 10),
-(4, '5200.00', 3, 11),
-(3, '7971.00', 2, 12),
-(6, '3942.00', 5, 12),
-(2, '2600.00', 3, 12);
+(1, 1020.00, 6, 1),
+(2, 4800.00, 7, 1),
+(1, 1020.00, 6, 2),
+(2, 6400.00, 1, 2),
+(4, 5200.00, 3, 3),
+(3, 7971.00, 2, 4),
+(6, 3942.00, 5, 4),
+(2, 2600.00, 3, 4);
 */
 -- --------------------------------------------------------
 
@@ -168,7 +168,7 @@ CREATE TABLE `pedido_proveedor` (
   `fecha_pedido` date NOT NULL DEFAULT current_timestamp(),
   `id_usuario` int(3) DEFAULT NULL,
   `id_proveedor` int(3) DEFAULT NULL,
-  `baja` tinyint(1) DEFAULT 0
+  `baja` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -183,7 +183,7 @@ CREATE TABLE `producto` (
   `tipo` varchar(6) NOT NULL,
   `precio` decimal(6,2) NOT NULL,
   `stock` int(4) DEFAULT NULL,
-  `baja` tinyint(1) DEFAULT 0
+  `baja` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
@@ -191,14 +191,14 @@ CREATE TABLE `producto` (
 --
 /*
 INSERT INTO `producto` (`id_producto`, `nombre_producto`, `tipo`, `precio`, `stock`, `baja`) VALUES
-(1, 'Ambruhgesau Con Chugale', 'comida', '3200.00', NULL, 0),
-(2, 'Fugazzex', 'comida', '2657.00', NULL, 0),
-(3, 'Fernardinho', 'bebida', '1300.00', NULL, 0),
-(4, 'Garibaldi', 'bebida', '1100.00', NULL, 0),
-(5, 'Tala De Caco', 'bebida', '657.00', NULL, 0),
-(12, 'Coca 1.5 Lt', 'bebida', '1020.00', 0, 0),
-(16, 'Oklahoma Burger', 'comida', '2400.00', NULL, 0),
-(17, 'Aperol Spritz', 'bebida', '1400.00', NULL, 0);
+(1, 'Ambruhgesau Con Chugale', 'comida', 3200.00, NULL, 0),
+(2, 'Fugazzex', 'comida', 2657.00, NULL, 0),
+(3, 'Fernardinho', 'bebida', 1300.00, NULL, 0),
+(4, 'Garibaldi', 'bebida', 1100.00, NULL, 0),
+(5, 'Tala De Caco', 'bebida', 657.00, NULL, 0),
+(6, 'Coca 1.5 Lt', 'bebida', 1020.00, 0, 0),
+(7, 'Oklahoma Burger', 'comida', 2400.00, NULL, 0),
+(8, 'Aperol Spritz', 'bebida', 1400.00, NULL, 0);
 */
 -- --------------------------------------------------------
 
@@ -211,7 +211,7 @@ CREATE TABLE `proveedor` (
   `nombre` varchar(30) NOT NULL,
   `mail` varchar(40) NOT NULL,
   `descripcion` varchar(50) DEFAULT NULL,
-  `baja` tinyint(1) DEFAULT 0
+  `baja` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -226,9 +226,9 @@ CREATE TABLE `usuario` (
   `apellido` varchar(30) NOT NULL,
   `dni` int(8) NOT NULL,
   `rol` tinyint(1) NOT NULL,
-  `nombre_usuario` varchar(15) NOT NULL,
+  `nombre_usuario` varchar(31) NOT NULL,
   `contrasena` varchar(255) NOT NULL,
-  `baja` tinyint(1) DEFAULT 0
+  `baja` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
@@ -236,28 +236,28 @@ CREATE TABLE `usuario` (
 --
 /*
 INSERT INTO `usuario` (`id_usuario`, `nombre`, `apellido`, `dni`, `rol`, `nombre_usuario`, `contrasena`, `baja`) VALUES
-(1, 'Franco', 'Armani', 37865891, 1, 'FArmaniX', 'riverpasion', 1),
-(2, 'Rogelio', 'Funes Mori', 38912551, 2, 'RFunesMori', 'riverelmasgrande', 1),
-(3, 'Lucas', 'Beltran', 40105829, 3, 'LBeltran', 'cologallina', 1),
-(4, 'Marcelo', 'Gallardo', 10100100, 1, 'mgallardo', 'quepedazodemuñeco', 0),
+(1, 'Franco', 'Armani', 37865891, 0, 'FArmaniX', 'cc68de04c617222341c717b39aca9e6c', 0),
+(2, 'Rogelio', 'Funes Mori', 38912551, 2, 'RFunesMori', 'd80d91676c77dbb1cbf9efd9bfd19368', 1),
+(3, 'Lucas', 'Beltran', 40105829, 3, 'LBeltran', '3008d81b43a8123d7b21795d04ac9884', 1),
+(4, 'Marcelo', 'Gallardo', 10100100, 1, 'mgallardo', '7dd220d2f7426185e4e394475bbfde2a', 0),
 (5, 'Enzo', 'Perez', 12345678, 0, 'eperez', '674f3c2c1a8a6f90461e8a66fb5550ba', 0),
 (6, 'Pablo', 'Almodovar', 14096861, 2, 'palmodovar', 'a957aa96221d0b7cb99ab072eaed7bf9', 1),
-(8, 'jose martin', 'campanella', 25978432, 3, 'jcampanella', '117ffc1acd844e431a4b73f0867adae5', 1),
-(10, 'martin', 'demichelis', 13246587, 0, 'mdemichelis', '2e2c4bf7ceaa4712a72dd5ee136dc9a8', 0),
-(11, 'milton', 'casco', 34086581, 1, 'mcasco', '7aee5d5dfa97b2516e5f639672c7e199', 0),
-(12, 'marcelo', 'barovero', 32194532, 2, 'mbarovero', '1d38dd921e15520709f86320185c5e1d', 0),
-(13, 'lucas', 'alario', 42654910, 2, 'lalario', '43975bc2dfc84641a2a8c4d3fe653176', 0),
-(14, 'jonatan', 'maidana', 12345679, 2, 'jmaidana', '166cee72e93a992007a89b39eb29628b', 0),
-(15, 'Ezequiel', 'Palacios', 13456789, 1, 'epalacios', '46d045ff5190f6ea93739da6c0aa19bc', 0),
-(16, 'tabare', 'viudez', 31465876, 1, 'tviudez', 'fdc0eb412a84fa549afe68373d9087e9', 0),
-(17, 'manuel', 'lanzini', 12346666, 3, 'mlanzini', 'e9510081ac30ffa83f10b68cde1cac07', 0),
-(18, 'lucas', 'pratto', 45000111, 2, 'lpratto', '7d7c45b9a935cf9d845fc75679a41559', 0),
-(19, 'Sebastián', 'Driussi', 11222333, 2, 'sdriussi', 'f7e0b956540676a129760a3eae309294', 0),
-(20, 'javier', 'pinola', 11222333, 0, 'jpinola', 'f7e0b956540676a129760a3eae309294', 0),
-(21, 'pepe', 'argento', 11122233, 0, 'pargento', 'e0f7a4d0ef9b84b83b693bbf3feb8e6e', 1),
-(22, 'esequiel', 'barco', 22111333, 0, 'ebarco', 'ff49cc40a8890e6a60f40ff3026d2730', 0),
-(23, 'ramon', 'diaz', 99888222, 3, 'rdiaz', '532923f11ac97d3e7cb0130315b067dc', 0),
-(24, 'pedo', 'feo', 11222999, 2, 'pfeo', 'a36e841c5230a79c2102036d2e259848', 1);
+(7, 'jose martin', 'campanella', 25978432, 3, 'jcampanella', '117ffc1acd844e431a4b73f0867adae5', 1),
+(8, 'martin', 'demichelis', 13246587, 0, 'mdemichelis', '2e2c4bf7ceaa4712a72dd5ee136dc9a8', 0),
+(9, 'milton', 'casco', 34086581, 1, 'mcasco', '7aee5d5dfa97b2516e5f639672c7e199', 0),
+(10, 'marcelo', 'barovero', 32194532, 2, 'mbarovero', '1d38dd921e15520709f86320185c5e1d', 0),
+(11, 'lucas', 'alario', 42654910, 2, 'lalario', '43975bc2dfc84641a2a8c4d3fe653176', 0),
+(12, 'jonatan', 'maidana', 12345679, 2, 'jmaidana', '166cee72e93a992007a89b39eb29628b', 0),
+(13, 'Ezequiel', 'Palacios', 13456789, 1, 'epalacios', '46d045ff5190f6ea93739da6c0aa19bc', 0),
+(14, 'tabare', 'viudez', 31465876, 1, 'tviudez', 'fdc0eb412a84fa549afe68373d9087e9', 0),
+(15, 'manuel', 'lanzini', 12346666, 3, 'mlanzini', 'e9510081ac30ffa83f10b68cde1cac07', 0),
+(16, 'lucas', 'pratto', 45000111, 2, 'lpratto', '7d7c45b9a935cf9d845fc75679a41559', 0),
+(17, 'Sebastián', 'Driussi', 11222333, 2, 'sdriussi', 'f7e0b956540676a129760a3eae309294', 0),
+(18, 'javier', 'pinola', 33322211, 0, 'jpinola', 'f7e0b956540676a129760a3eae309294', 0),
+(19, 'pepe', 'argento', 11122233, 0, 'pargento', 'e0f7a4d0ef9b84b83b693bbf3feb8e6e', 1),
+(20, 'esequiel', 'barco', 22111333, 0, 'ebarco', 'ff49cc40a8890e6a60f40ff3026d2730', 0),
+(21, 'ramon', 'diaz', 99888222, 3, 'rdiaz', '532923f11ac97d3e7cb0130315b067dc', 0),
+(22, 'pedo', 'feo', 11222999, 2, 'pfeo', 'a36e841c5230a79c2102036d2e259848', 1);
 */
 --
 -- Indexes for dumped tables
@@ -309,19 +309,24 @@ ALTER TABLE `pedido_proveedor`
 -- Indexes for table `producto`
 --
 ALTER TABLE `producto`
-  ADD PRIMARY KEY (`id_producto`);
+  ADD PRIMARY KEY (`id_producto`),
+  ADD UNIQUE KEY `nombre_producto` (`nombre_producto`);
 
 --
 -- Indexes for table `proveedor`
 --
 ALTER TABLE `proveedor`
-  ADD PRIMARY KEY (`id_proveedor`);
+  ADD PRIMARY KEY (`id_proveedor`),
+  ADD UNIQUE KEY `nombre` (`nombre`),
+  ADD UNIQUE KEY `mail` (`mail`);
 
 --
 -- Indexes for table `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id_usuario`);
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD UNIQUE KEY `dni` (`dni`),
+  ADD UNIQUE KEY `nombre_usuario` (`nombre_usuario`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -331,13 +336,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `factura`
 --
 ALTER TABLE `factura`
-  MODIFY `id_factura` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_factura` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ingrediente`
 --
 ALTER TABLE `ingrediente`
-  MODIFY `id_ingrediente` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_ingrediente` int(4) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pedido_proveedor`
@@ -349,7 +354,7 @@ ALTER TABLE `pedido_proveedor`
 -- AUTO_INCREMENT for table `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id_producto` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_producto` int(4) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `proveedor`
@@ -361,7 +366,7 @@ ALTER TABLE `proveedor`
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_usuario` int(3) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
