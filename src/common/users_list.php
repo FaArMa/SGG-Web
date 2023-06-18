@@ -47,40 +47,49 @@ mysqli_close($connection);
     <!-- Contenido -->
     <section id="users-list">
         <h1 class="neon" data-text="U"><span class="flicker-slow">L</span>ist<span class="flicker-fast">a</span> de <span class="flicker-slow">us</span>uar<span class="flicker-fast">io</span>s</h1>
+        <!-- Buscador -->
         <form action="<?php echo sanitize_input($_SERVER["PHP_SELF"]); ?>#content" method="get">
             <input type="text" id="surname" name="surname" placeholder="Escribe un apellido..." value="<?php echo $surname_searched; ?>">
             <button type="submit" id="btn-send">Buscar</button>
         </form>
+        <!-- Agregar usuario -->
         <a href="sign_in.php#add-user" id="agregate"><i id="add" class="fa-solid fa-circle-plus"></i> Agregar usuario</a>
+        <!-- Lista de usuarios -->
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>DNI</th>
                     <th>Rol</th>
                     <th>Usuario</th>
-                    <th>Contraseña</th>
                     <th>Eliminado</th>
-                    <th colspan="2">Acción</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody id="content">
-                <?php
+            <?php
                 // Recorrer cada usuario y mostrar los datos en filas de la tabla
                 foreach ($users as $row) {
                     echo "<tr>";
-                    echo "<td>" . $row["id_usuario"] . "</td>";
                     echo "<td>" . $row["nombre"] . "</td>";
                     echo "<td>" . $row["apellido"] . "</td>";
                     echo "<td>" . $row["dni"] . "</td>";
-                    echo "<td>" . $row["rol"] . "</td>";
-                    echo "<td>" . $row["usuario"] . "</td>";
-                    echo "<td>" . $row["contrasena"] . "</td>";
-                    echo "<td>" . $row["usuario_eliminado"] . "</td>";
-                    echo "<td><a href=\"#\"><i class=\"fa-solid fa-pen-to-square\"></i></a></td>";
-                    echo "<td><a href=\"#\"><i class=\"fa-solid fa-trash-can\"></i></a></td>";
+                    echo "<td>";
+                    if ($row["rol"] == 0)
+                        echo "Dueño";
+                    elseif ($row["rol"] == 1)
+                        echo "Encargado";
+                    elseif ($row["rol"] == 2)
+                        echo "Empleado";
+                    elseif ($row["rol"] == 3)
+                        echo "Contador";
+                    else
+                        echo "Desconocido";
+                    echo "</td>";
+                    echo "<td>" . $row["nombre_usuario"] . "</td>";
+                    echo "<td>" . ($row["baja"] == 1 ? "Si" : "No") . "</td>";
+                    echo "<td><a href=\"sign_in.php?edit_user=" . $row["nombre_usuario"] . "\"><i class=\"fa-solid fa-pen-to-square\"></i></a></td>";
                     echo "</tr>";
                 }
                 ?>
