@@ -17,9 +17,8 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] === false || $_SESS
 require_once("../php/db/connection.php");
 require_once("../php/db/functions.php");
 
-// Obtener la lista de usuarios según corresponda
-$surname_searched = isset($_GET["surname"]) ? sanitize_input($_GET["surname"]) : "";
-$users = empty($surname_searched) ? get_users_list($connection) : get_users_list_surname($connection, $surname_searched);
+// Obtener la lista de pedidos
+$orders = get_orders_list($connection);
 
 // Cerrar la conexión a la base de datos
 mysqli_close($connection);
@@ -47,29 +46,26 @@ mysqli_close($connection);
     <!-- Contenido -->
     <section id="orders-list">
         <h1 class="neon" data-text="U"><span class="flicker-slow">L</span>ist<span class="flicker-fast">a</span> de <span class="flicker-slow">pe</span>di<span class="flicker-fast">do</span>s</h1>
-        <form action="<?php echo sanitize_input($_SERVER["PHP_SELF"]); ?>" method="get">
-            <!--Los pedidos tendría sentidos buscarlos por fecha supongo-->
-            <input type="text" id="date" name="date" placeholder="Ingresa la fecha..." value="<?php echo $surname_searched; ?>">
-            <button type="submit" id="btn-send">Buscar</button>
-        </form>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Fecha de Creación</th>
+                    <th>Usuario</th>
+                    <th>Proveedor</th>
                     <th>Estado</th>
-                    <th>Usuario que lo creó</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                // Recorrer cada usuario y mostrar los datos en filas de la tabla
-                foreach ($users as $row) {
+                // Recorrer cada pedido y mostrar los datos en filas de la tabla
+                foreach ($orders as $row) {
                     echo "<tr>";
                     echo "<td>" . $row["id_pedido"] . "</td>";
-                    echo "<td>" . $row["fecha"] . "</td>";
-                    echo "<td>" . $row["estado"] . "</td>";
-                    echo "<td>" . $row["id_usuario"] . "</td>";     //¿Es necesario...? ¿Hacer un join del id del usuario con la tabla usuario y devolver su apellido?
+                    echo "<td>" . date('d/m/Y', strtotime($row["fecha_pedido"])) . "</td>";
+                    echo "<td>" . $row["nombre_usuario"] . "</td>";
+                    echo "<td>" . $row["nombre"] . "</td>";
+                    echo "<td>" . ($row["baja"] == 1 ? "Entregado" : "Activo") . "</td>";
                     echo "</tr>";
                 }
                 ?>
