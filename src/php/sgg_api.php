@@ -51,13 +51,19 @@ if ($_POST["action"] === "get_user_role") {
     die;
 }
 
-/* Devuelve datos del usuario */
-if ($_POST["action"] === "get_user_info"){
+
+/*
+ * Verifica si la acción es "get_user_info" y devuelve los datos del usuario.
+ * Imprime los datos obtenidos en el cuerpo de la respuesta.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
+if ($_POST["action"] === "get_user_info") {
     $query_result = get_user_info($connection, $_POST["username"]);
-    echo implode(',',$query_result);
+    echo implode(',', $query_result);
     mysqli_close($connection);
     die;
 }
+
 
 /*
  * Verifica si la acción es "validate_user_credentials" y valida las credenciales del usuario.
@@ -88,7 +94,12 @@ if ($_POST["action"] === "add_user") {
     die;
 }
 
-/* Modifica datos del usuario */
+
+/*
+ * Verifica si la acción es "modify_user" y modifica los datos del usuario.
+ * Imprime el resultado de la modificación en el cuerpo de la respuesta.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
 if ($_POST["action"] === "modify_user") {
     $_POST["name"] = sanitize_input($_POST["name"]);
     $_POST["surname"] = sanitize_input($_POST["surname"]);
@@ -100,30 +111,49 @@ if ($_POST["action"] === "modify_user") {
     die;
 }
 
-/* Elimina usuario */
-if ($_POST["action"] === "delete_user"){
+
+/*
+ * Verifica si la acción es "delete_user" y elimina el usuario.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
+if ($_POST["action"] === "delete_user") {
     $query_result = delete_user($connection, $_POST["username"]);
     mysqli_close($connection);
     die;
 }
 
-/* Devuelve los productos con sus precios y tipos */
+
+/*
+ * Verifica si la acción es "get_product_list" y devuelve la lista de productos con sus precios y tipos.
+ * Imprime la lista obtenida en el cuerpo de la respuesta.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
 if ($_POST["action"] === "get_product_list") {
     $query_result = get_product_list($connection);
-    echo implode(',',$query_result);
+    echo implode(',', $query_result);
     mysqli_close($connection);
     die;
 }
 
-/* Devuelve todos los ingredientes */
+
+/*
+ * Verifica si la acción es "get_available_ingredients" y devuelve la lista de todos los ingredientes disponibles.
+ * Imprime la lista obtenida en el cuerpo de la respuesta.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
 if ($_POST["action"] === "get_available_ingredients") {
     $query_result = get_available_ingredients($connection);
-    echo implode(',',$query_result);
+    echo implode(',', $query_result);
     mysqli_close($connection);
     die;
 }
 
-/* Devuelve los ingredientes de todos los productos */
+
+/*
+ * Verifica si la acción es "get_product_ingredients" y devuelve los ingredientes de todos los productos.
+ * Imprime los ingredientes obtenidos en el cuerpo de la respuesta en formato JSON.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
 if ($_POST["action"] === "get_product_ingredients") {
     $query_result = get_product_ingredients($connection);
     header('Content-Type: application/json');
@@ -132,7 +162,12 @@ if ($_POST["action"] === "get_product_ingredients") {
     die;
 }
 
-/* Devuelve las cantidades de cada ingrediente de todos los productos */
+
+/*
+ * Verifica si la acción es "get_product_ingredient_amounts" y devuelve las cantidades de cada ingrediente de todos los productos.
+ * Imprime las cantidades obtenidas en el cuerpo de la respuesta en formato JSON.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
 if ($_POST["action"] === "get_product_ingredient_amounts") {
     $query_result = get_product_ingredient_amounts($connection);
     header('Content-Type: application/json');
@@ -141,62 +176,81 @@ if ($_POST["action"] === "get_product_ingredient_amounts") {
     die;
 }
 
-/* Devuelve los usuarios y sus roles */
+
+/*
+ * Verifica si la acción es "get_user_list" y devuelve la lista de usuarios con sus roles.
+ * Imprime la lista obtenida en el cuerpo de la respuesta.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
 if ($_POST["action"] === "get_user_list") {
     $query_result = get_user_list($connection);
-    echo implode(',',$query_result);
+    echo implode(',', $query_result);
     mysqli_close($connection);
     die;
 }
 
-/* Modifica nombre, precio, o ambos datos de producto */
-if($_POST["action"] === "modify_product_data"){
+
+/*
+ * Verifica si la acción es "modify_product_data" y modifica el nombre, precio o ambos datos de un producto.
+ * Imprime el resultado de la modificación en el cuerpo de la respuesta.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
+if ($_POST["action"] === "modify_product_data") {
     $query_result = modify_product_data($connection, (float) $_POST["nuevo_precio"], $_POST["nuevo_nombre_producto"], $_POST["viejo_nombre_producto"]);
     echo $query_result;
     mysqli_close($connection);
     die;
 }
 
-/* Agrega producto y sus ingredientes*/
-if($_POST["action"] === "add_product"){
-    $query_add_product = add_product($connection, $_POST["nombre"], $_POST["tipo"], $_POST["precio"]);
 
-    foreach(json_decode($_POST["ingredientes"],true) as $nombre_ingrediente => $cantidad_unidad) {
+/*
+ * Verifica si la acción es "add_product" y agrega un producto junto con sus ingredientes.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
+if ($_POST["action"] === "add_product") {
+    $query_add_product = add_product($connection, $_POST["nombre"], $_POST["tipo"], $_POST["precio"]);
+    foreach (json_decode($_POST["ingredientes"], true) as $nombre_ingrediente => $cantidad_unidad)
         $query_add_ingredients = add_product_ingredients($connection, $nombre_ingrediente, $cantidad_unidad[0], $cantidad_unidad[1], $query_add_product);
-    }
-    
     mysqli_close($connection);
     die;
 }
 
-/* Elimina producto */
+
+/*
+ * Verifica si la acción es "delete_product" y elimina un producto.
+ * Imprime el resultado de la eliminación en el cuerpo de la respuesta.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
 if ($_POST["action"] === "delete_product") {
-    $query_result = delete_product($connection,$_POST["nombre_producto"]);
+    $query_result = delete_product($connection, $_POST["nombre_producto"]);
     echo $query_result;
     mysqli_close($connection);
     die;
 }
 
-/* Crea factura, le asigna productos y el importe total */
+
+/*
+ * Verifica si la acción es "generate_bill" y crea una factura, asigna productos y calcula el importe total.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
 if ($_POST["action"] === "generate_bill") {
     $query_result_bill_id = generate_bill($connection, $_POST["mesa"], $_POST["nombre_usuario"]);
-
-    foreach(json_decode($_POST["productos"],true) as $nombre_producto => $cantidad) {
+    foreach (json_decode($_POST["productos"], true) as $nombre_producto => $cantidad)
         $query_add_bill_item = set_bill_item($connection, $nombre_producto, $cantidad, $query_result_bill_id);
-    }
-
     $query_bill_total_sum = set_bill_total_amount($connection, $query_result_bill_id);
-
     mysqli_close($connection);
     die;
 }
 
-/* Busca facturas emitidas entre cierta fecha */
-if ($_POST["action"] === "billing_search"){
+
+/*
+ * Verifica si la acción es "billing_search" y busca facturas emitidas entre ciertas fechas.
+ * Imprime el resultado de la búsqueda en el cuerpo de la respuesta.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
+if ($_POST["action"] === "billing_search") {
     $query_result = billing_search($connection, $_POST["desde"], $_POST["hasta"]);
-
-    echo implode(',',$query_result);
-
+    echo implode(',', $query_result);
     mysqli_close($connection);
     die;
 }

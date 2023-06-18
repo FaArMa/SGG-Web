@@ -20,8 +20,6 @@
 /*
  * Etiquetas y Clases
  */
-
-
 body {
     background-color: rgb(20, 20, 20);
     color: #fff;
@@ -150,6 +148,7 @@ p {
     transition: opacity 400ms ease;
 }
 
+
 /*
  * Títulos
  */
@@ -195,6 +194,7 @@ p {
         opacity: 0.4;
     }
 }
+
 
 /*
  * Formularios
@@ -319,11 +319,11 @@ select {
     width: 60%;
 }
 
-#error p{
-    padding: 5rem;
+#error p {
     color: #E12F29;
     font-size: 1.3rem;
     font-weight: bold;
+    padding: 5rem;
 }
 
 
@@ -435,6 +435,7 @@ select {
     text-shadow: 0px 0px 0.5rem #FF0000;
 }
 
+
 /*
  * Lista de Usuarios
  */
@@ -502,6 +503,7 @@ select {
     padding-top: 10px;
 }
 
+
 /*
  * Lista de Pedidos
  */
@@ -555,6 +557,7 @@ select {
     margin-top: 2rem;
     padding-top: 10px;
 }
+
 
 /*
  * Footer
