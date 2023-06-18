@@ -14,10 +14,17 @@ $_POST["role"] = sanitize_input($_POST["role"]);
 $_POST["username"] = sanitize_input($_POST["username"]);
 
 if (isset($_POST["id"])) {
-    if (isset($_POST["delete_user"]))
+    if (isset($_POST["delete_user"])) {
         // Eliminar al usuario en la base de datos (baja lógica)
         delete_user($connection, $_POST["username"]);
-    else
+        // Decrementa el contador de usuarios en la sesión si se eliminó correctamente
+        --$_SESSION["users_count"];
+    } else if (isset($_POST["restore_user"])) {
+        // Restaurar al usuario eliminado en la base de datos
+        restore_user($connection, $_POST["username"]);
+        // Incrementa el contador de usuarios en la sesión si se restauró correctamente
+        ++$_SESSION["users_count"];
+    } else
         // Actualizar los datos del usuario en la base de datos
         modify_user($connection, $_POST["name"], $_POST["surname"], $_POST["dni"], $_POST["role"], $_POST["username"], $_POST["password"], $_POST["id"]);
 } else {

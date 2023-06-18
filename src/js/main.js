@@ -92,6 +92,23 @@ function signInHandler() {
             }
         });
     }
+
+    // Botón de restaurar usuario
+    const restoreButton = document.getElementById("btn-restore");
+    if (restoreButton) {
+        restoreButton.addEventListener("click", function () {
+            const confirmation = window.confirm("¿Estás seguro de que deseas restaurar este usuario?");
+            if (confirmation) {
+                // Agregar el campo oculto al formulario
+                let restoreInput = document.createElement("input");
+                restoreInput.setAttribute("type", "hidden");
+                restoreInput.setAttribute("name", "restore_user");
+                document.querySelector("form").appendChild(restoreInput);
+                // Enviar el formulario
+                document.querySelector("form").submit();
+            }
+        });
+    }
 }
 
 

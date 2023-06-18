@@ -66,7 +66,7 @@ if (!empty($_GET["edit_user"])) {
                 <?php
                 require_once("../php/db/connection.php");
                 require_once("../php/db/functions.php");
-                $user = get_user_info($connection, $_GET["edit_user"]);
+                $user = get_user_info_all($connection, $_GET["edit_user"]);
                 mysqli_close($connection);
                 ?>
                 <input type="hidden" name="id" value="<?php echo $user["id_usuario"]; ?>">
@@ -100,8 +100,11 @@ if (!empty($_GET["edit_user"])) {
             <input type="password" id="password" name="password" placeholder="Contraseña: Últimos 4 dígitos del DNI" title="Contraseña: Últimos 4 dígitos del DNI" minlength="4" maxlength="4" readonly>
             <button type="submit" id="btn-send"><?php echo $button; ?></button>
             <?php if ($edit_mode): ?>
-                <!-- XXX ¿Hacer uno para Restaurar al Usuario Eliminado? -->
-                <button type="button" id="btn-delete">Eliminar</button>
+                <?php if ($user["baja"]): ?>
+                    <button type="button" id="btn-restore">Restaurar</button>
+                <?php else: ?>
+                    <button type="button" id="btn-delete">Eliminar</button>
+                <?php endif; ?>
             <?php endif; ?>
         </form>
     </section>
