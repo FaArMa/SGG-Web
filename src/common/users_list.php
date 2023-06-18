@@ -19,7 +19,7 @@ require_once("../php/db/functions.php");
 
 // Obtener la lista de usuarios según corresponda
 $surname_searched = isset($_GET["surname"]) ? sanitize_input($_GET["surname"]) : "";
-$users = empty($surname_searched) ? get_users_list($connection) : get_users_list_surname($connection, $surname_searched);
+$users = empty($surname_searched) ? get_users_list_all($connection) : get_users_list_surname_all($connection, $surname_searched);
 
 // Cerrar la conexión a la base de datos
 mysqli_close($connection);
@@ -68,7 +68,7 @@ mysqli_close($connection);
                 </tr>
             </thead>
             <tbody id="content">
-            <?php
+                <?php
                 // Recorrer cada usuario y mostrar los datos en filas de la tabla
                 foreach ($users as $row) {
                     echo "<tr>";
