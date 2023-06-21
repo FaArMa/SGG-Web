@@ -35,8 +35,8 @@ if ((rand() / getrandmax()) <= 0.02558) {
                 echo "<li><a href=\"/SGG-Web/src/common/log_in.php#log-in\" class=\"menu-item\">Iniciar sesión</a></li>";
                 // Si no existe users_count debo obtenerlo
                 if (!isset($_SESSION["users_count"])) {
-                    require_once("src/php/db/connection.php");
-                    require_once("src/php/db/functions.php");
+                    require_once("db/connection.php");
+                    require_once("db/functions.php");
                     $_SESSION["users_count"] = get_users_count($connection);
                     mysqli_close($connection);
                 }

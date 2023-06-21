@@ -22,7 +22,7 @@
     <!-- Contenido -->
     <section id="log-in">
         <h1 class="neon" data-text="U"><span class="flicker-slow">I</span>nici<span class="flicker-fast">a</span>r Se<span class="flicker-slow">si</span>ón</h1>
-        <form action="../php/log_in.php#control-content" method="post">
+        <form action="../php/log_in.php" method="post">
             <label for="username">Usuario</label>
             <input type="text" id="username" name="username" placeholder="Escribe tu usuario..." required>
             <label for="password">Contraseña</label>

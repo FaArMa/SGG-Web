@@ -8,7 +8,7 @@ session_start();
  * se redirecciona a la página de inicio de sesión y se finaliza la ejecución del script.
  */
 if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] === false) {
-    header("Location: /SGG-Web/src/common/log_in.php");
+    header("Location: log_in.php#log-in");
     die;
 }
 ?>
@@ -39,10 +39,10 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] === false) {
             <?php
             // Solo lo ve el Dueño
             if ($_SESSION["role"] === 0)
-                echo "<a href=\"/SGG-Web/src/common/users_list.php#users-list\"><div id=\"user-list\"><p>Lista de usuarios</p></div></a>";
+                echo "<a href=\"users_list.php#users-list\"><div id=\"user-list\"><p>Lista de usuarios</p></div></a>";
             // Solo lo ve el Dueño y Encargado
             if ($_SESSION["role"] <= 1)
-                echo "<a href=\"/SGG-Web/src/common/orders_list.php#orders-list\"><div id=\"order-list\"><p>Lista de pedidos</p></div></a>";
+                echo "<a href=\"orders_list.php#orders-list\"><div id=\"order-list\"><p>Lista de pedidos</p></div></a>";
             // Solo lo ven los demás roles ya que NO deberían estar aquí
             else {
                 if ((rand() / getrandmax()) <= 0.25575)

@@ -8,7 +8,7 @@ session_start();
  * se redirecciona a la página de inicio y se finaliza la ejecución del script.
  */
 if ((!isset($_SESSION["role"]) || $_SESSION["role"] !== 0) && $_SESSION["users_count"] > 0) {
-    header('Location: /SGG-Web/');
+    header('Location: ../../');
     die;
 }
 

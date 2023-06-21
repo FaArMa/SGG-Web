@@ -6,5 +6,5 @@ session_unset();
 // Eliminar la sesión
 session_destroy();
 // Redireccionar a la página de inicio
-header('Location: /SGG-Web/');
+header('Location: ../../');
 ?>

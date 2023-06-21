@@ -38,5 +38,5 @@ if (isset($_POST["id"])) {
 mysqli_close($connection);
 
 // Redirige al usuario a la página de inicio
-header("Location: /SGG-Web/");
+header("Location: ../../");
 ?>

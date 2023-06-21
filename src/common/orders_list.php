@@ -9,7 +9,7 @@ session_start();
  * se redirecciona a la página de inicio de sesión y se finaliza la ejecución del script.
  */
 if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] === false || $_SESSION["role"] > 1) {
-    header("Location: /SGG-Web/src/common/log_in.php");
+    header("Location: log_in.php#log-in");
     die;
 }
 
