@@ -561,4 +561,25 @@ function get_orders_list($connection) {
     mysqli_free_result($result);
     return $records;
 }
+
+
+/**
+ * Obtiene una lista de pedidos de proveedores desde la base de datos dentro de un rango de fechas.
+ *
+ * @param mysqli $connection La conexión activa a la base de datos.
+ * @param string $startDate La fecha inicial del rango (en formato "YYYY-MM-DD").
+ * @param string $endDate La fecha final del rango (en formato "YYYY-MM-DD").
+ * @return array La lista de pedidos de proveedores dentro del rango de fechas.
+ */
+function get_orders_list_by_date_range($connection, $startDate, $endDate) {
+    $startDate = mysqli_real_escape_string($connection, $startDate);
+    $endDate = mysqli_real_escape_string($connection, $endDate);
+    $query = "SELECT pedido_proveedor.id_pedido, pedido_proveedor.fecha_pedido, usuario.nombre_usuario, proveedor.nombre, pedido_proveedor.baja FROM pedido_proveedor INNER JOIN usuario ON pedido_proveedor.id_usuario = usuario.id_usuario INNER JOIN proveedor ON pedido_proveedor.id_proveedor = proveedor.id_proveedor WHERE pedido_proveedor.fecha_pedido BETWEEN '$startDate' AND '$endDate';";
+    $result = mysqli_query($connection, $query);
+    $records = array();
+    while ($row = mysqli_fetch_assoc($result))
+        $records[] = $row;
+    mysqli_free_result($result);
+    return $records;
+}
 ?>

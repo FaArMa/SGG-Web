@@ -9,6 +9,9 @@ window.onload = function () {
     // Solo para la página de Registrarse / Agregar / Editar Usuario
     if (window.location.pathname.match(/\/common\/sign_in\.php/))
         signInHandler();
+    // Solo para la página de Lista de pedidos
+    if (window.location.pathname.match(/\/common\/orders_list\.php/))
+        orderListHandler();
 };
 
 
@@ -113,6 +116,19 @@ function signInHandler() {
 
 
 /**
+ * Controlador de eventos para el formulario de lista de pedidos.
+ * Reinicia los campos de fecha inicial y fecha final.
+ */
+function orderListHandler() {
+    document.getElementById("btn-reset").addEventListener("click", function () {
+        document.getElementById("date-start").value = "";
+        document.getElementById("date-end").value = get_today_date();
+        document.querySelector("form").submit();
+    });
+}
+
+
+/**
  * Genera un nombre de usuario basado en el nombre y apellido proporcionados.
  *
  * @param {string} name - El nombre del usuario.
@@ -132,4 +148,17 @@ function generateUsername(name, surname) {
  */
 function generatePassword(dni) {
     return dni.slice(-4);
+}
+
+
+/**
+ * Obtiene la fecha actual en formato ISO 8601 (YYYY-MM-DD) ajustada al desplazamiento de la zona horaria.
+ *
+ * @returns {string} La fecha actual en formato "YYYY-MM-DD".
+ */
+function get_today_date() {
+    let date = new Date();
+    const offset = date.getTimezoneOffset();
+    date = new Date(date.getTime() - (offset * 60 * 1000));
+    return date.toISOString().split("T")[0];
 }

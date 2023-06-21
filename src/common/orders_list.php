@@ -17,8 +17,11 @@ if (!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] === false || $_SESS
 require_once("../php/db/connection.php");
 require_once("../php/db/functions.php");
 
-// Obtener la lista de pedidos
-$orders = get_orders_list($connection);
+// Obtener la lista de pedidos según corresponda
+date_default_timezone_set("America/Argentina/Buenos_Aires");
+$date_start_searched = isset($_GET["date-start"]) ? sanitize_input($_GET["date-start"]) : "";
+$date_end_searched = isset($_GET["date-end"]) ? sanitize_input($_GET["date-end"]) : date("Y-m-d");
+$orders = empty($date_start_searched) ? get_orders_list($connection) : get_orders_list_by_date_range($connection, $date_start_searched, $date_end_searched);
 
 // Cerrar la conexión a la base de datos
 mysqli_close($connection);
@@ -46,6 +49,16 @@ mysqli_close($connection);
     <!-- Contenido -->
     <section id="orders-list">
         <h1 class="neon" data-text="U"><span class="flicker-slow">L</span>ist<span class="flicker-fast">a</span> de <span class="flicker-slow">pe</span>di<span class="flicker-fast">do</span>s</h1>
+        <!-- Buscador -->
+        <form action="<?php echo sanitize_input($_SERVER["PHP_SELF"]); ?>#content" method="get">
+            <label for="date-start">Fecha inicial</label>
+            <input type="date" id="date-start" name="date-start" max="<?php echo $date_end_searched; ?>" value="<?php echo $date_start_searched; ?>" required>
+            <label for="date-end">Fecha final</label>
+            <input type="date" id="date-end" name="date-end" max="<?php echo date("Y-m-d"); ?>" value="<?php echo $date_end_searched; ?>" required>
+            <button type="submit" id="btn-send">Buscar</button>
+            <button type="button" id="btn-reset">Reiniciar</button>
+        </form>
+        <!-- Lista de pedidos -->
         <table>
             <thead>
                 <tr>
@@ -56,7 +69,7 @@ mysqli_close($connection);
                     <th>Estado</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="content">
                 <?php
                 // Recorrer cada pedido y mostrar los datos en filas de la tabla
                 foreach ($orders as $row) {
