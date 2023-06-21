@@ -168,12 +168,18 @@ function get_user_info_all($connection, $username) {
  */
 function validate_user_credentials($connection, $username, $password) {
     $escaped_username = mysqli_real_escape_string($connection, $username);
-    $hashed_password = md5($password);
-    $query = "SELECT * FROM `usuario` WHERE `nombre_usuario` = '$escaped_username' AND `contrasena` = '$hashed_password' AND `baja` = 0;";
+    $query = "SELECT `contrasena` FROM `usuario` WHERE `nombre_usuario` = '$escaped_username' AND `baja` = 0;";
     $result = mysqli_query($connection, $query) or die("Error al validar las credenciales de usuario con la base de datos.");
-    $valid = (mysqli_num_rows($result) > 0);
+    $row = mysqli_fetch_assoc($result);
+    if ($row) {
+        $hashed_password = $row['contrasena'];
+        if (password_verify($password, $hashed_password)) {
+            mysqli_free_result($result);
+            return true;
+        }
+    }
     mysqli_free_result($result);
-    return $valid;
+    return false;
 }
 
 
@@ -195,7 +201,7 @@ function add_user($connection, $name, $surname, $dni, $role, $username, $passwor
     $escaped_dni = mysqli_real_escape_string($connection, $dni);
     $escaped_role = mysqli_real_escape_string($connection, $role);
     $escaped_username = mysqli_real_escape_string($connection, $username);
-    $hashed_password = md5($password);
+    $hashed_password = password_hash($password, PASSWORD_ARGON2ID);
     $query = "INSERT INTO `usuario` VALUES (NULL,'$escaped_name','$escaped_surname','$escaped_dni','$escaped_role','$escaped_username','$hashed_password',DEFAULT)";
     $result = mysqli_query($connection, $query) or die("Error al agregar usuario a la base de datos.");
     return $result;
@@ -221,7 +227,7 @@ function modify_user($connection, $name, $surname, $dni, $role, $username, $pass
     $escaped_dni = mysqli_real_escape_string($connection, $dni);
     $escaped_role = mysqli_real_escape_string($connection, $role);
     $escaped_username = mysqli_real_escape_string($connection, $username);
-    $hashed_password = md5($password);
+    $hashed_password = password_hash($password, PASSWORD_ARGON2ID);
     $query = "UPDATE usuario SET nombre = '$escaped_name', apellido = '$escaped_surname', dni = '$escaped_dni', rol = '$escaped_role', nombre_usuario = '$escaped_username', contrasena = '$hashed_password' WHERE id_usuario = $user_id;";
     $result = mysqli_query($connection, $query) or die("Error al modificar usuario de la base de datos.");
     return $result;
