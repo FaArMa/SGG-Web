@@ -525,24 +525,13 @@ function set_bill_total_amount($connection, $factura_id) {
  * @return array Un array con la información de las facturas encontradas. Cada factura está representada por un conjunto de valores [fecha_emision, mesa, importe, nombre_usuario].
  */
 function billing_search($connection, $desde, $hasta) {
-    $query_bill_id = "SELECT id_factura FROM factura WHERE fecha_emision BETWEEN CAST('$desde' AS DATE) AND CAST('$hasta' AS DATE);";
-    $result_bill_id = mysqli_query($connection, $query_bill_id);
-    $bill_id_array = array();
-    while ($row = mysqli_fetch_assoc($result_bill_id))
-        array_push($bill_id_array, $row["id_factura"]);
-    $bill_info_array = array();
-    foreach ($bill_id_array as $i) {
-        $query_bill_info = "SELECT fecha_emision, mesa, importe, id_usuario FROM factura WHERE id_factura = $i";
-        $result_bill_info = mysqli_query($connection, $query_bill_info);
-        $row_bill = mysqli_fetch_assoc($result_bill_info);
-        $id_usuario = $row_bill["id_usuario"];
-        $query_username = "SELECT nombre_usuario FROM usuario WHERE id_usuario = $id_usuario;";
-        $result_user_id = mysqli_query($connection, $query_username);
-        $row_username = mysqli_fetch_assoc($result_user_id);
-        $nombre_usuario = $row_username["nombre_usuario"];
-        array_push($bill_info_array, $row_bill["fecha_emision"], $row_bill["mesa"], $row_bill["importe"], $nombre_usuario);
+    $query_bill = "SELECT factura.id_factura, factura.fecha_emision, factura.mesa, factura.importe, usuario.nombre_usuario FROM factura JOIN usuario ON factura.id_usuario = usuario.id_usuario WHERE fecha_emision BETWEEN CAST('$desde' AS DATE) AND CAST('$hasta' AS DATE) ORDER BY factura.fecha_emision, factura.mesa, factura.importe;";
+    $result_bill = mysqli_query($connection, $query_bill);
+    $bill_array = array();
+    while ($row = mysqli_fetch_assoc($result_bill)) {
+        array_push($bill_array, $row["id_factura"], $row["fecha_emision"], $row["mesa"], $row["importe"], $row["nombre_usuario"]);
     }
-    return $bill_info_array;
+    return $bill_array;
 }
 
 
