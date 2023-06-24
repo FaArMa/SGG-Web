@@ -106,7 +106,7 @@ if ($_POST["action"] === "modify_user") {
     $_POST["dni"] = sanitize_input($_POST["dni"]);
     $_POST["role"] = sanitize_input($_POST["role"]);
     $_POST["username"] = sanitize_input($_POST["username"]);
-    echo modify_user($connection, $_POST["name"], $_POST["surname"], (int) $_POST["dni"], (int) $_POST["role"], $_POST["username"], $_POST["user_id"], $_POST["password"]);
+    echo modify_user($connection, $_POST["name"], $_POST["surname"], (int) $_POST["dni"], (int) $_POST["role"], $_POST["username"], $_POST["password"], $_POST["user_id"]);
     mysqli_close($connection);
     die;
 }
