@@ -45,7 +45,15 @@ INSERT INTO `factura` (`id_factura`, `fecha_emision`, `mesa`, `importe`, `id_usu
 (1, '2022-11-26', 'D3', 5820.00, 13),
 (2, '2023-06-18', 'S1', 7420.00, 10),
 (3, '2023-06-16', 'S3', 5200.00, 11),
-(4, '2023-06-16', 'S3', 14513.00, 10);
+(4, '2023-06-16', 'S3', 14513.00, 10),
+(5, '2023-06-22', 'D4', 3800.00, 2),
+(6, '2023-06-23', 'S2', 4500.00, 3),
+(7, '2023-06-23', 'D2', 2800.00, 4),
+(8, '2023-06-23', 'S4', 5200.00, 1),
+(9, '2023-06-24', 'D1', 6200.00, 3),
+(10, '2023-06-24', 'S1', 4200.00, 2),
+(11, '2023-06-24', 'S3', 3100.00, 4),
+(12, '2023-06-24', 'D3', 4800.00, 1);
 */
 -- --------------------------------------------------------
 
@@ -79,7 +87,27 @@ INSERT INTO `ingrediente` (`id_ingrediente`, `nombre_ingrediente`, `stock`, `uni
 (11, 'manteca', 200, 'gr', 0),
 (12, 'hielo entero', 200, 'gr', 0),
 (13, 'aperol', 200, 'lt', 0),
-(14, 'vino espumante', 200, 'lt', 0);
+(14, 'vino espumante', 200, 'lt', 0),
+(15, 'tomate', 800, 'gr', 0),
+(16, 'queso cheddar', 500, 'gr', 0),
+(17, 'hamburguesa de pollo', 300, 'u', 0),
+(18, 'cebolla morada', 500, 'gr', 0),
+(19, 'mayonesa', 200, 'gr', 0),
+(20, 'azúcar', 20, 'gr', 0),
+(21, 'limón', 300, 'u', 0),
+(22, 'agua con gas', 120, 'ml', 0),
+(23, 'albahaca', 10, 'gr', 0),
+(24, 'queso mozzarella', 90, 'gr', 0),
+(25, 'salsa de tomate', 100, 'gr', 0),
+(26, 'jamon', 150, 'gr', 0),
+(27, 'queso', 150, 'gr', 0),
+(28, 'pan de miga', 300, 'gr', 0),
+(29, 'vino tinto', 1, 'u', 0),
+(30, 'jugo de lima', 30, 'ml', 0),
+(31, 'ron cubano', 60, 'ml', 0),
+(32, 'ginebra', 50, 'ml', 0),
+(33, 'cerveza', 450, 'ml', 0),
+(34, 'cafe', 200, 'ml', 0);
 */
 -- --------------------------------------------------------
 
@@ -128,7 +156,44 @@ INSERT INTO `ingrediente_x_producto` (`cantidad`, `id_ingrediente`, `id_producto
 (0.02, 8, 8),
 (50.00, 12, 8),
 (0.06, 13, 8),
-(0.22, 14, 8);
+(0.22, 14, 8),
+(150.00, 15, 1),
+(80.00, 16, 1),
+(1.00, 17, 1),
+(40.00, 18, 1),
+(30.00, 19, 1),
+(500.00, 20, 3),
+(2.00, 21, 3),
+(500.00, 20, 4),
+(2.00, 21, 4),
+(500.00, 20, 5),
+(2.00, 21, 5),
+(500.00, 20, 6),
+(2.00, 21, 6),
+(200.00, 19, 7),
+(400.00, 18, 7),
+(100.00, 15, 7),
+(200.00, 15, 8),
+(100.00, 16, 8),
+(10.00, 23, 9),
+(3000.00, 4, 9),
+(90.00, 24, 9),
+(100.00, 25, 9),
+(150.00, 26, 10),
+(150.00, 27, 10),
+(300.00, 28, 10),
+(1.00, 29, 11),
+(30.00, 30, 12),
+(60.00, 31, 12),
+(200.00, 12, 12),
+(20.00, 20, 12),
+(120.00, 22, 12),
+(50.00, 32, 13),
+(120.00, 22, 13),
+(300.00, 21, 13),
+(200.00, 12, 13),
+(200.00, 34, 14),
+(450.00, 33, 15);
 */
 -- --------------------------------------------------------
 
@@ -155,7 +220,23 @@ INSERT INTO `item_factura` (`cantidad`, `precio`, `id_producto`, `id_factura`) V
 (4, 5200.00, 3, 3),
 (3, 7971.00, 2, 4),
 (6, 3942.00, 5, 4),
-(2, 2600.00, 3, 4);
+(2, 2600.00, 3, 4),
+(2, 1600.00, 1, 5),
+(1, 890.00, 2, 5),
+(3, 3300.00, 3, 5),
+(4, 1100.00, 4, 6),
+(2, 850.00, 5, 6),
+(1, 1600.00, 6, 6),
+(3, 740.00, 7, 7),
+(1, 1290.00, 8, 7),
+(2, 1700.00, 1, 8),
+(1, 940.00, 2, 8),
+(2, 1400.00, 3, 9),
+(1, 1150.00, 4, 9),
+(4, 380.00, 5, 9),
+(3, 2400.00, 6, 10),
+(1, 800.00, 7, 10),
+(2, 1350.00, 8, 10);
 */
 -- --------------------------------------------------------
 
@@ -183,7 +264,15 @@ INSERT INTO `pedido_proveedor` (`id_pedido`, `fecha_pedido`, `id_usuario`, `id_p
 (5, '2023-06-14', 3, 5, 0),
 (6, '2023-06-17', 4, 6, 1),
 (7, '2023-06-19', 5, 7, 0),
-(8, '2023-06-21', 6, 8, 0);
+(8, '2023-06-21', 6, 8, 0),
+(9, '2023-06-23', 6, 1, 0),
+(10, '2023-06-24', 7, 2, 0),
+(11, '2023-06-24', 5, 3, 0),
+(12, '2023-06-24', 3, 4, 0),
+(13, '2023-06-24', 4, 5, 0),
+(14, '2023-06-24', 6, 6, 0),
+(15, '2023-06-24', 7, 7, 0),
+(16, '2023-06-24', 5, 8, 0);
 */
 -- --------------------------------------------------------
 
@@ -205,14 +294,21 @@ CREATE TABLE `producto` (
 --
 /*
 INSERT INTO `producto` (`id_producto`, `nombre_producto`, `tipo`, `precio`, `stock`, `baja`) VALUES
-(1, 'Ambruhgesau Con Chugale', 'comida', 3200.00, NULL, 0),
-(2, 'Fugazzex', 'comida', 2657.00, NULL, 0),
-(3, 'Fernardinho', 'bebida', 1300.00, NULL, 0),
+(1, 'Hamburguesa de Lechuga', 'comida', 3200.00, NULL, 0),
+(2, 'Fugazzetta', 'comida', 2657.00, NULL, 0),
+(3, 'Fernet con Coca', 'bebida', 1300.00, NULL, 0),
 (4, 'Garibaldi', 'bebida', 1100.00, NULL, 0),
-(5, 'Tala De Caco', 'bebida', 657.00, NULL, 0),
+(5, 'Coca de Lata', 'bebida', 657.00, NULL, 0),
 (6, 'Coca 1.5 Lt', 'bebida', 1020.00, 0, 0),
 (7, 'Oklahoma Burger', 'comida', 2400.00, NULL, 0),
-(8, 'Aperol Spritz', 'bebida', 1400.00, NULL, 0);
+(8, 'Aperol Spritz', 'bebida', 1400.00, NULL, 0),
+(9, 'Pizza Margarita', 'comida', 3200.00, NULL, 0),
+(10, 'Sándwich de Jamón y Queso', 'comida', 1120.00, NULL, 0),
+(11, 'Vino Tinto Reserva', 'bebida', 1900.00, NULL, 0),
+(12, 'Mojito', 'bebida', 960.00, NULL, 0),
+(13, 'Gin Tonic', 'bebida', 1100.00, NULL, 0),
+(14, 'Café Expresso', 'bebida', 1400.00, NULL, 0),
+(15, 'Cerveza Artesanal', 'bebida', 1750.00, NULL, 0);
 */
 -- --------------------------------------------------------
 
@@ -222,9 +318,9 @@ INSERT INTO `producto` (`id_producto`, `nombre_producto`, `tipo`, `precio`, `sto
 
 CREATE TABLE `proveedor` (
   `id_proveedor` int(3) NOT NULL,
-  `nombre` varchar(30) NOT NULL,
+  `nombre` varchar(40) NOT NULL,
   `mail` varchar(40) NOT NULL,
-  `descripcion` varchar(50) DEFAULT NULL,
+  `descripcion` varchar(60) DEFAULT NULL,
   `baja` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -240,7 +336,15 @@ INSERT INTO `proveedor` (`id_proveedor`, `nombre`, `mail`, `descripcion`, `baja`
 (5, 'Panadería La Delicia', 'contacto@panaderialadelicia.com', 'Elaboración propia de panes y productos de reposte', 0),
 (6, 'Bebidas del Mundo', 'info@bebidasdelmundo.com', 'Proveedor de bebidas alcohólicas y no alcohólicas.', 0),
 (7, 'Distribuidora de Vinos Finos', 'ventas@vinosfinos.com', 'Amplia selección de vinos nacionales e importados.', 0),
-(8, 'Dulces y Golosinas S.A.', 'info@dulcesygolosinas.com', 'Proveedor de dulces y golosinas de todo tipo.', 0);
+(8, 'Dulces y Golosinas S.A.', 'info@dulcesygolosinas.com', 'Proveedor de dulces y golosinas de todo tipo.', 0),
+(9, 'Distribuidora de Frutos Secos', 'info@frutossecos.com', 'Proveedores de una amplia variedad de frutos secos.', 0),
+(10, 'Distribuciones Lácteas', 'ventas@distribucioneslacteas.com', 'Proveedor de productos lácteos frescos.', 0),
+(11, 'Distribuidora de Bebidas Gaseosas', 'info@distribuidorabebidasgaseosas.com', 'Proveedor de bebidas gaseosas de distintas marcas.', 0),
+(12, 'Distribuidora de Helados', 'ventas@distribuidorahelados.com', 'Proveedor de helados artesanales y de marca.', 0),
+(13, 'Distribuidora de Frutas Exóticas', 'info@frutasexoticas.com', 'Proveedores de frutas exóticas de alta calidad.', 0),
+(14, 'Cafetería y Té', 'ventas@cafeteriayte.com', 'Proveedor de café y té de diversas variedades.', 0),
+(15, 'Distribuidora de Condimentos', 'info@condimentos.com', 'Proveedor de condimentos y especias para cocina.', 0),
+(16, 'Distribuidora de Bebidas Energéticas', 'ventas@bebidasenergeticas.com', 'Proveedor de bebidas energéticas de distintas marcas.', 0);
 */
 -- --------------------------------------------------------
 
