@@ -14,3 +14,6 @@
 
 ## Aviso
 1. Fecha de entrega para el 21/06/2023, así que si ves cambios posteriores es porque quisimos terminar de corregir y/o mejorar ciertas cosas.
+2. El último commit del SGG-Web es el [1274f7f](https://github.com/FaArMa/SGG-Web/tree/1274f7fbe21ccf2c2bd5450660823f8406c15cf6) (ya que se presentó este y aprobamos), los posteriores *muy probablemente* sean solo para SGG-GDEng.
+    - Especialmente si los cambios son en `src/php/sgg_api.php`, `src/php/db/functions.php` y `src/php/db/sgg_web.sql`.
+3. El diseño no es adaptable ya que no era obligatorio que lo sea, pero parece ir bien desde 850x480 en adelante.
