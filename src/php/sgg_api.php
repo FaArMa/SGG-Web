@@ -191,6 +191,17 @@ if ($_POST["action"] === "get_user_list") {
 
 
 /*
+* Modificar stock de ingrediente
+*/
+if ($_POST["action"] === "modify_ingredient_stock") {
+    $query_result = modify_ingredient_stock($connection, $_POST["nombre_ingrediente"], $_POST["stock"]);
+    echo $query_result;
+    mysqli_close($connection);
+    die;
+}
+
+
+/*
  * Verifica si la acción es "modify_product_data" y modifica el nombre, precio o ambos datos de un producto.
  * Imprime el resultado de la modificación en el cuerpo de la respuesta.
  * Cierra la conexión a la base de datos y finaliza la ejecución del script.
@@ -209,8 +220,8 @@ if ($_POST["action"] === "modify_product_data") {
  */
 if ($_POST["action"] === "add_product") {
     $query_add_product = add_product($connection, $_POST["nombre"], $_POST["tipo"], $_POST["precio"]);
-    foreach (json_decode($_POST["ingredientes"], true) as $nombre_ingrediente => $cantidad_unidad)
-        $query_add_ingredients = add_product_ingredients($connection, $nombre_ingrediente, $cantidad_unidad[0], $cantidad_unidad[1], $query_add_product);
+    foreach (json_decode($_POST["ingredientes"], true) as $nombre_ingrediente => $cantidad_unidad_stock)
+        $query_add_ingredients = add_product_ingredients($connection, $nombre_ingrediente, $cantidad_unidad_stock[0], $cantidad_unidad_stock[1], $query_add_product, $cantidad_unidad_stock[2]);
     mysqli_close($connection);
     die;
 }

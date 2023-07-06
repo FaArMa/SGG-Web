@@ -306,10 +306,10 @@ function get_available_ingredients($connection) {
     $product_array = array();
     $ingredients = array();
     foreach ($product_id as $i) {
-        $query = "SELECT i.nombre_ingrediente, i.unidad_medida FROM ingrediente_x_producto ixp INNER JOIN ingrediente i ON i.id_ingrediente = ixp.id_ingrediente WHERE ixp.id_producto = $i AND i.baja = 0;";
+        $query = "SELECT i.nombre_ingrediente, i.unidad_medida, i.stock FROM ingrediente_x_producto ixp INNER JOIN ingrediente i ON i.id_ingrediente = ixp.id_ingrediente WHERE ixp.id_producto = $i AND i.baja = 0;";
         $result = mysqli_query($connection, $query) or die("Error get_available_ingredients");
         while ($row = mysqli_fetch_assoc($result))
-            array_push($ingredients, $row["nombre_ingrediente"], $row["unidad_medida"]);
+            array_push($ingredients, $row["nombre_ingrediente"], $row["unidad_medida"], $row["stock"]);
         array_push($product_array, $ingredients);
     }
     mysqli_free_result($result);
@@ -398,7 +398,7 @@ function add_product($connection, $nombre, $tipo, $precio) {
  * @param int $id_producto El ID del producto al que se agregarán los ingredientes.
  * @return int El número de filas afectadas por la operación.
  */
-function add_product_ingredients($connection, $nombre, $cantidad, $unidad, $id_producto) {
+function add_product_ingredients($connection, $nombre, $cantidad, $unidad, $id_producto, $stock) {
     // CHEQUEA SI EXISTE
     $query_get_ingredient_id = "SELECT id_ingrediente FROM ingrediente WHERE nombre_ingrediente = '$nombre';";
     $result_get_id = mysqli_query($connection, $query_get_ingredient_id);
@@ -411,7 +411,7 @@ function add_product_ingredients($connection, $nombre, $cantidad, $unidad, $id_p
     } else {
         // SI NO EXISTE...
         // LO AGREGA
-        $query_add_ingredient = "INSERT INTO ingrediente(id_ingrediente, nombre_ingrediente, stock, unidad_medida, baja) VALUES (NULL, '$nombre', 200, '$unidad', 0);";
+        $query_add_ingredient = "INSERT INTO ingrediente(id_ingrediente, nombre_ingrediente, stock, unidad_medida, baja) VALUES (NULL, '$nombre', $stock, '$unidad', 0);";
         $result_add = mysqli_query($connection, $query_add_ingredient);
         // OBTIENE SU ID
         $query_get_ingredient_id = "SELECT id_ingrediente FROM ingrediente WHERE nombre_ingrediente = '$nombre';";
@@ -424,6 +424,15 @@ function add_product_ingredients($connection, $nombre, $cantidad, $unidad, $id_p
     }
     return mysqli_affected_rows($connection);
 }
+
+
+function modify_ingredient_stock($connection, $nombre_ingrediente, $stock) {
+    $query = "UPDATE ingrediente SET stock = $stock WHERE nombre_ingrediente = '$nombre_ingrediente';";
+    $result = mysqli_query($connection, $query);
+
+    return mysqli_affected_rows($connection);
+}
+
 
 
 /**
