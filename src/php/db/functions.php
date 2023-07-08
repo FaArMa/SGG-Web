@@ -533,12 +533,12 @@ function delete_product($connection, $nombre_producto) {
  * @param string $nombre_usuario El nombre de usuario asociado a la factura.
  * @return int El ID de la factura recién creada.
  */
-function generate_bill($connection, $mesa, $nombre_usuario) {
+function generate_bill($connection, $mesa, $nombre_usuario, $importe) {   // Faltaria mandar la fecha (¿y hora?) del ticket
     $query_user_id = "SELECT id_usuario FROM usuario WHERE nombre_usuario = '$nombre_usuario';";
     $result = mysqli_query($connection, $query_user_id);
     $row = mysqli_fetch_assoc($result);
     $usuario_id = $row["id_usuario"];
-    $query_new_bill = "INSERT INTO factura (id_factura, fecha_emision, importe, mesa, id_usuario) VALUES (NULL, sysdate(), 0, '$mesa', $usuario_id);";
+    $query_new_bill = "INSERT INTO factura (id_factura, fecha_emision, importe, mesa, id_usuario) VALUES (NULL, sysdate(), $importe, '$mesa', $usuario_id);";
     $result = mysqli_query($connection, $query_new_bill);
     $query_bill_id = "SELECT MAX(id_factura) AS id_factura FROM factura;";
     $result = mysqli_query($connection, $query_bill_id);
@@ -560,22 +560,6 @@ function generate_bill($connection, $mesa, $nombre_usuario) {
 function set_bill_item($connection, $nombre_producto, $cantidad, $factura_id) {
     $query_add_product = "INSERT INTO item_factura ( cantidad, precio, id_producto, id_factura)	VALUES ($cantidad, (SELECT precio * $cantidad FROM producto WHERE nombre_producto = '$nombre_producto'), (SELECT id_producto FROM producto WHERE nombre_producto = '$nombre_producto'), $factura_id);";
     $result = mysqli_query($connection, $query_add_product);
-}
-
-
-// XXX ¿En alguna de estas funciones se debe llamar a otra para descontar stock?
-
-
-/**
- * Asigna a la factura el valor total de los productos consumidos.
- *
- * @param mysqli $connection La conexión activa a la base de datos.
- * @param int $factura_id El ID de la factura a la que se asigna el valor total.
- * @return void
- */
-function set_bill_total_amount($connection, $factura_id) {
-    $query_sum_total = "UPDATE factura f JOIN item_factura it ON it.id_factura = $factura_id SET f.importe = (SELECT SUM(it.precio) FROM item_factura it JOIN factura f ON f.id_factura = it.id_factura WHERE f.id_factura = $factura_id) WHERE f.id_factura = $factura_id;";
-    $result = mysqli_query($connection, $query_sum_total);
 }
 
 

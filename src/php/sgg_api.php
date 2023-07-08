@@ -284,10 +284,10 @@ if ($_POST["action"] === "delete_product") {
  * Cierra la conexión a la base de datos y finaliza la ejecución del script.
  */
 if ($_POST["action"] === "generate_bill") {
-    $query_result_bill_id = generate_bill($connection, $_POST["mesa"], $_POST["nombre_usuario"]);
+    $query_result_bill_id = generate_bill($connection, $_POST["mesa"], $_POST["nombre_usuario"], $_POST["importe"]);
+    echo $query_result_bill_id;
     foreach (json_decode($_POST["productos"], true) as $nombre_producto => $cantidad)
         $query_add_bill_item = set_bill_item($connection, $nombre_producto, $cantidad, $query_result_bill_id);
-    $query_bill_total_sum = set_bill_total_amount($connection, $query_result_bill_id);
     mysqli_close($connection);
     die;
 }
