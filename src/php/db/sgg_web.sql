@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 21, 2023 at 06:00 AM
+-- Generation Time: Jul 07, 2023 at 10:00 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -42,7 +42,7 @@ CREATE TABLE `factura` (
 --
 /*
 INSERT INTO `factura` (`id_factura`, `fecha_emision`, `mesa`, `importe`, `id_usuario`) VALUES
-(1, '2022-11-26', 'D3', 5820.00, 13),
+(1, '2023-06-01', 'D3', 5820.00, 13),
 (2, '2023-06-18', 'S1', 7420.00, 10),
 (3, '2023-06-16', 'S3', 5200.00, 11),
 (4, '2023-06-16', 'S3', 14513.00, 10),
@@ -64,7 +64,7 @@ INSERT INTO `factura` (`id_factura`, `fecha_emision`, `mesa`, `importe`, `id_usu
 CREATE TABLE `ingrediente` (
   `id_ingrediente` int(4) NOT NULL,
   `nombre_ingrediente` varchar(40) NOT NULL,
-  `stock` int(4) DEFAULT NULL,
+  `stock` int(4) DEFAULT NULL CHECK (`stock` >= 0),
   `unidad_medida` varchar(3) DEFAULT NULL,
   `baja` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
@@ -74,40 +74,40 @@ CREATE TABLE `ingrediente` (
 --
 /*
 INSERT INTO `ingrediente` (`id_ingrediente`, `nombre_ingrediente`, `stock`, `unidad_medida`, `baja`) VALUES
-(1, 'carne', 600, 'gr', 0),
-(2, 'lechuga', 1400, 'gr', 0),
-(3, 'pan', 500, 'gr', 0),
-(4, 'masa', 3000, 'gr', 0),
-(5, 'cebolla', 2750, 'gr', 0),
-(6, 'fernet', 6, 'lt', 0),
-(7, 'coca', 10, 'lt', 0),
-(8, 'jugo de naranja', 5, 'lt', 0),
-(9, 'campari', 8, 'lt', 0),
-(10, 'pan brioche', 200, 'u', 0),
-(11, 'manteca', 200, 'gr', 0),
-(12, 'hielo entero', 200, 'gr', 0),
-(13, 'aperol', 200, 'lt', 0),
-(14, 'vino espumante', 200, 'lt', 0),
-(15, 'tomate', 800, 'gr', 0),
-(16, 'queso cheddar', 500, 'gr', 0),
-(17, 'hamburguesa de pollo', 300, 'u', 0),
-(18, 'cebolla morada', 500, 'gr', 0),
-(19, 'mayonesa', 200, 'gr', 0),
-(20, 'azúcar', 20, 'gr', 0),
-(21, 'limón', 300, 'u', 0),
-(22, 'agua con gas', 120, 'ml', 0),
-(23, 'albahaca', 10, 'gr', 0),
-(24, 'queso mozzarella', 90, 'gr', 0),
-(25, 'salsa de tomate', 100, 'gr', 0),
-(26, 'jamon', 150, 'gr', 0),
-(27, 'queso', 150, 'gr', 0),
-(28, 'pan de miga', 300, 'gr', 0),
-(29, 'vino tinto', 1, 'u', 0),
-(30, 'jugo de lima', 30, 'ml', 0),
-(31, 'ron cubano', 60, 'ml', 0),
-(32, 'ginebra', 50, 'ml', 0),
-(33, 'cerveza', 450, 'ml', 0),
-(34, 'cafe', 200, 'ml', 0);
+(1, 'carne', 6000, 'gr', 0),
+(2, 'lechuga', 14000, 'gr', 0),
+(3, 'pan', 5000, 'gr', 0),
+(4, 'masa', 30000, 'gr', 0),
+(5, 'cebolla', 27500, 'gr', 0),
+(6, 'fernet', 1600, 'lt', 0),
+(7, 'coca', 10000, 'lt', 0),
+(8, 'jugo de naranja', 1500, 'lt', 0),
+(9, 'campari', 1800, 'lt', 0),
+(10, 'pan brioche', 2000, 'u', 0),
+(11, 'manteca', 2000, 'gr', 0),
+(12, 'hielo entero', 2000, 'gr', 0),
+(13, 'aperol', 2000, 'lt', 0),
+(14, 'vino espumante', 2000, 'lt', 0),
+(15, 'tomate', 8000, 'gr', 0),
+(16, 'queso cheddar', 5000, 'gr', 0),
+(17, 'hamburguesa de pollo', 3000, 'u', 0),
+(18, 'cebolla morada', 5000, 'gr', 0),
+(19, 'mayonesa', 2000, 'gr', 0),
+(20, 'azúcar', 1200, 'gr', 0),
+(21, 'limón', 3000, 'u', 0),
+(22, 'agua con gas', 1200, 'ml', 0),
+(23, 'albahaca', 1000, 'gr', 0),
+(24, 'queso mozzarella', 1900, 'gr', 0),
+(25, 'salsa de tomate', 1000, 'gr', 0),
+(26, 'jamon', 1500, 'gr', 0),
+(27, 'queso', 1500, 'gr', 0),
+(28, 'pan de miga', 3000, 'gr', 0),
+(29, 'vino tinto', 1000, 'u', 0),
+(30, 'jugo de lima', 1300, 'ml', 0),
+(31, 'ron cubano', 1600, 'ml', 0),
+(32, 'ginebra', 1500, 'ml', 0),
+(33, 'cerveza', 4500, 'ml', 0),
+(34, 'cafe', 1200, 'ml', 0);
 */
 -- --------------------------------------------------------
 
@@ -299,7 +299,7 @@ INSERT INTO `producto` (`id_producto`, `nombre_producto`, `tipo`, `precio`, `sto
 (3, 'Fernet con Coca', 'bebida', 1300.00, NULL, 0),
 (4, 'Garibaldi', 'bebida', 1100.00, NULL, 0),
 (5, 'Coca de Lata', 'bebida', 657.00, NULL, 0),
-(6, 'Coca 1.5 Lt', 'bebida', 1020.00, 0, 0),
+(6, 'Coca 1.5 Lt', 'bebida', 1020.00, NULL, 0),
 (7, 'Oklahoma Burger', 'comida', 2400.00, NULL, 0),
 (8, 'Aperol Spritz', 'bebida', 1400.00, NULL, 0),
 (9, 'Pizza Margarita', 'comida', 3200.00, NULL, 0),
