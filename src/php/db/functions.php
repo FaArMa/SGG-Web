@@ -426,13 +426,67 @@ function add_product_ingredients($connection, $nombre, $cantidad, $unidad, $id_p
 }
 
 
+/**
+ * Modifica el stock de un ingrediente en la base de datos.
+ *
+ * @param mysqli $connection La conexión activa a la base de datos.
+ * @param string $nombre_ingrediente El nombre del ingrediente a modificar.
+ * @param int $stock La cantidad de stock a modificar. Puede ser positivo para aumentar el stock o negativo para disminuirlo.
+ * @return int El número de filas afectadas por la consulta de actualización.
+ */
 function modify_ingredient_stock($connection, $nombre_ingrediente, $stock) {
-    $query = "UPDATE ingrediente SET stock = $stock WHERE nombre_ingrediente = '$nombre_ingrediente';";
-    $result = mysqli_query($connection, $query);
-
+    $query = "UPDATE ingrediente SET stock = stock + $stock WHERE nombre_ingrediente = '$nombre_ingrediente';";
+    mysqli_query($connection, $query);
     return mysqli_affected_rows($connection);
 }
 
+
+/**
+ * Disminuye el stock de los ingredientes de un producto en la base de datos.
+ *
+ * @param mysqli $connection La conexión activa a la base de datos.
+ * @param string $nombre_producto El nombre del producto cuyos ingredientes se van a actualizar.
+ * @param int $cantidad La cantidad de productos a disminuir. Esta cantidad se multiplicará por la cantidad de ingredientes utilizados en el producto.
+ * @return int Devuelve 1 si la operación se realizó correctamente, o 0 si ocurrió algún error.
+ */
+function update_ingredient_stock_decrease($connection, $nombre_producto, $cantidad) {
+    $query = "UPDATE ingrediente i JOIN ingrediente_x_producto ixp ON i.id_ingrediente = ixp.id_ingrediente JOIN producto p ON p.id_producto = ixp.id_producto SET i.stock = i.stock - (ixp.cantidad * $cantidad) WHERE p.nombre_producto = '$nombre_producto';";
+    return (mysqli_query($connection, $query)) ? 1 : 0;
+}
+
+
+/**
+ * Aumenta el stock de los ingredientes de un producto en la base de datos.
+ *
+ * @param mysqli $connection La conexión activa a la base de datos.
+ * @param string $nombre_producto El nombre del producto cuyos ingredientes se van a actualizar.
+ * @param int $cantidad La cantidad de productos a aumentar. Esta cantidad se multiplicará por la cantidad de ingredientes utilizados en el producto.
+ * @return int Devuelve 1 si la operación se realizó correctamente, o 0 si ocurrió algún error.
+ */
+function update_ingredient_stock_increase($connection, $nombre_producto, $cantidad) {
+    $query = "UPDATE ingrediente i JOIN ingrediente_x_producto ixp ON i.id_ingrediente = ixp.id_ingrediente JOIN producto p ON p.id_producto = ixp.id_producto SET i.stock = i.stock + (ixp.cantidad * $cantidad) WHERE p.nombre_producto = '$nombre_producto';";
+    return (mysqli_query($connection, $query)) ? 1 : 0;
+}
+
+
+/**
+ * Verifica si hay suficiente stock de ingredientes para un producto en la base de datos.
+ * Si hay suficiente stock, disminuye el stock de los ingredientes y luego lo aumenta nuevamente.
+ * Devuelve 1 si la verificación y las operaciones de modificación se realizan correctamente, o 0 si ocurre algún error.
+ *
+ * @param mysqli $connection La conexión activa a la base de datos.
+ * @param string $nombre_producto El nombre del producto cuyos ingredientes se verificarán y modificarán.
+ * @param int $cantidad La cantidad de productos a verificar y modificar. Esta cantidad se utilizará para la disminución y el aumento del stock.
+ * @return int Devuelve 1 si la verificación y las operaciones de modificación se realizan correctamente, o 0 si ocurre algún error.
+ */
+function check_ingredient_stock($connection, $nombre_producto, $cantidad) {
+    if (update_ingredient_stock_decrease($connection, $nombre_producto, $cantidad) === 1) {
+        // Si esto falla, quebramos.
+        update_ingredient_stock_increase($connection, $nombre_producto, $cantidad);
+        return 1;
+    }
+    return 0;
+}
 
 
 /**

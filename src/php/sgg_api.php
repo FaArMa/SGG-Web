@@ -201,6 +201,45 @@ if ($_POST["action"] === "modify_ingredient_stock") {
 }
 
 
+/**
+ * Verifica si la acción es "update_ingredient_stock_decrease" y disminuye el stock de los ingredientes de un producto.
+ * Imprime el resultado de la consulta en el cuerpo de la respuesta.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
+if ($_POST["action"] === "update_ingredient_stock_decrease") {
+    $query_result = update_ingredient_stock_decrease($connection, $_POST["nombre_producto"], $_POST["cantidad"]);
+    echo $query_result;
+    mysqli_close($connection);
+    die;
+}
+
+
+/**
+ * Verifica si la acción es "update_ingredient_stock_increase" y aumenta el stock de los ingredientes de un producto.
+ * Imprime el resultado de la consulta en el cuerpo de la respuesta.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
+if ($_POST["action"] === "update_ingredient_stock_increase") {
+    $query_result = update_ingredient_stock_increase($connection, $_POST["nombre_producto"], $_POST["cantidad"]);
+    echo $query_result;
+    mysqli_close($connection);
+    die;
+}
+
+
+/**
+ * Verifica si la acción es "check_ingredient_stock" y comprueba si hay suficiente stock de ingredientes para un producto.
+ * Imprime el resultado de la consulta en el cuerpo de la respuesta.
+ * Cierra la conexión a la base de datos y finaliza la ejecución del script.
+ */
+if ($_POST["action"] === "check_ingredient_stock") {
+    $query_result = check_ingredient_stock($connection, $_POST["nombre_producto"], $_POST["cantidad"]);
+    echo $query_result;
+    mysqli_close($connection);
+    die;
+}
+
+
 /*
  * Verifica si la acción es "modify_product_data" y modifica el nombre, precio o ambos datos de un producto.
  * Imprime el resultado de la modificación en el cuerpo de la respuesta.
