@@ -2,6 +2,26 @@
 - Un sitio web para la parte práctica del segundo parcial de **Laboratorio de Computación IV** (materia de la carrera *Tecnicatura Universitaria en Programación* de la *UTN*), el cual será para interactuar con la base de datos (MySQL) del **Sistema de Gestión Gastronómico** ([SGG-GDEng](https://github.com/FaArMa/SGG-GDEng)) utilizando PHP.
   - Desarrollado junto a [iglop](https://github.com/iglop) y [ereichardt](https://github.com/ereichardt).
 
+<div align="center">
+    <img src="https://i.imgur.com/73diIgn.png" alt="SGG-Web-Control-Panel.png" width="640" height="360">
+    <br>
+    <sup>Una de las páginas del sitio web</sup>
+    <br>
+    <br>
+    <img src="https://i.imgur.com/HhUdpNC.png" alt="SGG-Web-SQL-Diagram.png" width="640" height="360">
+    <br>
+    <sup>Diagrama de la base de datos</sup>
+</div>
+
+## Lenguajes y herramientas utilizadas
+- HTML5
+- CSS3
+- JavaScript <sup>ES6</sup>
+- PHP <sup>8.2</sup>
+- MySQL <sup>MariaDB 10.4 LTS</sup>
+- XAMPP <sup>[8.2.4](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/8.2.4/)</sup>
+  - Incluye: Apache <sup>2.4.56</sup>, PHP <sup>8.2.4</sup>, MariaDB <sup>10.4.28</sup>, phpMyAdmin <sup>5.2.1</sup>, etc.
+
 ## Consignas
 1. La temática del mismo será libre y podrá articularse con los requisitos de los proyectos solicitados en la materia Práctica Profesional Supervisada.
 2. El proyecto debe tener una base de datos y al menos 2 tablas, una de usuarios y la otra que permita cargar el contenido principal del proyecto.
